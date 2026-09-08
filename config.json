@@ -1,0 +1,157 @@
+{
+  "theme": {
+    "colors": {
+      "text": "#999999",
+      "textMuted": "#777777",
+      "foreground": "#999999",
+      "foreground2": "#777777",
+      "background": "#222222",
+      "background2": "#666666",
+      "ok": "#1A7F39",
+      "error": "#E5002E",
+      "warning": "#E5BF00"
+    },
+    "font": {
+      "family": "Google Sans",
+      "size": 14
+    },
+    "fontMono": {
+      "family": "JetBrainsMono Nerd Font",
+      "size": 14
+    },
+    "widget": {
+      "size": 24
+    }
+  },
+  "layout": {
+    "left": {
+      "widgets": ["workspaces", "focusedWindow"],
+      "separator": true,
+      "spacing": 6
+    },
+    "center": {
+      "widgets": [],
+      "separator": true,
+      "spacing": 6
+    },
+    "right": {
+      "widgets": ["cpu", "ram", "network", "battery", "clock"],
+      "separator": true,
+      "spacing": 6
+    }
+  },
+  "bar": {
+    "position": "top",
+    "size": 30
+  },
+  "focusedWindow": {
+    "icon": {
+      "enabled": true,
+      "scale": 0.9
+    },
+    "title": {
+      "enabled": true
+    },
+    "font": {
+      "family": "",
+      "scale": 1.2,
+      "weight": 600
+    }
+  },
+  "cpu": {
+    "scale": 1,
+    "updateInterval": 1000,
+    "numTopProcesses": 5,
+    "icon": {
+      "enabled": true,
+      "scale": 0.85,
+      "color": "#777777"
+    },
+    "graph": {
+      "enabled": true,
+      "history": 30,
+      "lineColor": "#999999",
+      "lowUsageColor": "#802D3154",
+      "highUsageColor": "#80FF4500"
+    }
+  },
+  "ram": {
+    "scale": 1,
+    "updateInterval": 1000,
+    "sizeUnit": "GiB",
+    "numTopProcesses": 5,
+    "icon": {
+      "enabled": true,
+      "scale": 1,
+      "color": "#777777"
+    },
+    "colors": {
+      "used": "#2E86C1",
+      "shared": "#004880",
+      "buffersCached": "#7D3C98",
+      "free": "#666666"
+    },
+    "graph": {
+      "enabled": true
+    }
+  },
+  "network": {
+    "scale": 1,
+    "rateUpdateInterval": 1000,
+    "infoUpdateInterval": 5,
+    "externalUpdateInterval": 600,
+    "rates": {
+      "enabled": true,
+      "baseUnit": "KiB"
+    },
+    "graph": {
+      "enabled": true,
+      "history": 30
+    },
+    "icon": {
+      "enabled": true,
+      "scale": 1.2,
+      "color": "#777777"
+    },
+    "colors": {
+      "rx": "#1F77B4",
+      "tx": "#FF7F0E"
+    }
+  },
+  "battery": {
+    "scale": 1.5,
+    "low": 20,
+    "critical": 10,
+    "suspend": 5,
+    "automaticSuspend": true,
+    "showPercentage": true,
+    "orientation": "horizontal"
+  },
+  "clock": {
+    "scale": 1,
+    "time": {
+      "enabled": true,
+      "format": "hh:mm"
+    },
+    "date": {
+      "enabled": true,
+      "format": "yyyy-MM-dd"
+    },
+    "font": {
+      "family": "",
+      "scale": 1.1,
+      "weight": 400
+    }
+  },
+  "workspaces": {
+    "maxCount": 10,
+    "icon": {
+      "scale": 0.6,
+      "radius": 1
+    },
+    "colors": {
+      "active": "#000000",
+      "inactive": "#333333"
+    }
+  }
+}
