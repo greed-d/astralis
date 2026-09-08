@@ -1,0 +1,379 @@
+##############################################################################
+# bar.toml — Desktop Bar Configuration Template
+#
+# A verbose, fully-annotated reference template for a status bar module
+# in a Wayland/X11 window manager or compositor (e.g. niri, sway, hyprland,
+# umbriel, river). Every section is optional at runtime; the bar should
+# fall back to sane defaults for any key that is omitted. Comments describe
+# expected types, valid ranges, and behavior.
+##############################################################################
+
+
+##############################################################################
+# [bar] — Top-level bar identity and placement
+##############################################################################
+[bar]
+# Unique identifier for this bar instance. Required if running multiple
+# bars (e.g. one per output/monitor).
+name = "main"
+
+# Which output/monitor this bar should render on.
+# "*" or "all" renders one instance per connected output.
+output = "*"
+
+# Edge of the screen the bar is anchored to: "top" | "bottom" | "left" | "right"
+position = "top"
+
+# Bar thickness in logical pixels (height if top/bottom, width if left/right).
+height = 34
+
+# Whether the bar reserves screen space (exclusive zone) so windows don't
+# overlap it, or floats above windows instead.
+exclusive_zone = true
+
+# If exclusive_zone is false, draw the bar above ("overlay") or below
+# ("background") normal windows.
+layer = "top"          # "background" | "bottom" | "top" | "overlay"
+
+# Margins around the bar itself, in logical pixels.
+[bar.margin]
+top = 6
+bottom = 0
+left = 8
+right = 8
+
+# Corner radius applied to the bar's outer shape.
+radius = 12
+
+# Whether the bar auto-hides when a fullscreen window is focused.
+hide_on_fullscreen = true
+
+# Auto-hide the entire bar and reveal on mouse hover near the edge.
+auto_hide = false
+auto_hide_delay_ms = 400
+reveal_trigger_px = 2
+
+# Multi-monitor behavior: "mirror" duplicates content on every output,
+# "independent" gives each output its own workspace/window state.
+multi_monitor_mode = "independent"
+
+# Restart/reload behavior on config file changes.
+watch_config = true
+reload_debounce_ms = 250
+
+
+##############################################################################
+# [layout] — Segment ordering
+##############################################################################
+[layout]
+# Modules are grouped into left, center, and right clusters.
+# Each entry references a [[module]] block below by its "id".
+left   = ["workspaces", "active_window"]
+center = ["clock"]
+right  = ["tray", "network", "bluetooth", "audio", "battery", "power_menu"]
+
+# Spacing between modules within a cluster, in logical pixels.
+module_spacing = 10
+
+# Spacing between the three clusters.
+cluster_spacing = 24
+
+# Padding inside the bar, applied to the whole content area.
+[layout.padding]
+top = 2
+bottom = 2
+left = 12
+right = 12
+
+
+##############################################################################
+# [appearance] — Global theming
+##############################################################################
+[appearance]
+# Font family and fallback chain.
+font_family = ["JetBrainsMono Nerd Font", "Noto Sans", "sans-serif"]
+font_size = 13
+font_weight = "medium"     # "light" | "regular" | "medium" | "bold"
+
+# Icon set / glyph source.
+icon_theme = "Papirus-Dark"
+icon_font = "Symbols Nerd Font"
+icon_size = 16
+
+# Global opacity, 0.0–1.0.
+opacity = 0.92
+
+# Whether the bar background is blurred (compositor-dependent).
+blur = true
+blur_radius = 24
+
+[appearance.colors]
+background      = "#1e1e2eE6"
+foreground      = "#cdd6f4"
+foreground_dim  = "#a6adc8"
+accent          = "#89b4fa"
+accent_alt      = "#f5c2e7"
+warning         = "#f9e2af"
+critical        = "#f38ba8"
+success         = "#a6e3a1"
+border          = "#313244"
+shadow          = "#00000066"
+
+[appearance.border]
+enabled = true
+width = 1
+color = "#313244"
+style = "solid"    # "solid" | "dashed" | "none"
+
+[appearance.shadow]
+enabled = true
+blur_radius = 16
+offset_x = 0
+offset_y = 2
+color = "#00000066"
+
+# Per-module background pill/capsule styling.
+[appearance.module_style]
+background = "#313244B3"
+radius = 8
+padding_x = 10
+padding_y = 4
+hover_background = "#45475aCC"
+hover_scale = 1.02
+transition_ms = 120
+
+
+##############################################################################
+# [[module]] — Repeated blocks, one per bar segment
+# Referenced by "id" from [layout]. Order here does not matter; [layout]
+# controls display order.
+##############################################################################
+
+# --- Workspaces / virtual desktops -----------------------------------------
+[[module]]
+id = "workspaces"
+type = "workspaces"
+enabled = true
+
+[module.workspaces]
+show_names = false          # show workspace names instead of numbers
+show_empty = false          # show workspaces with no windows
+persistent_workspaces = [1, 2, 3, 4, 5]
+scroll_to_switch = true
+scroll_wrap = true
+click_to_switch = true
+middle_click_action = "close_empty"
+active_icon = "●"
+inactive_icon = "○"
+urgent_icon = "!"
+occupied_icon = "◆"
+per_monitor = true
+format = "{icon} {index}"
+
+# --- Active window title -----------------------------------------------------
+[[module]]
+id = "active_window"
+type = "window_title"
+enabled = true
+
+[module.window_title]
+max_length = 48
+truncate_suffix = "…"
+show_icon = true
+fallback_text = "Desktop"
+format = "{icon}  {title}"
+strip_patterns = [" — Mozilla Firefox$", " - Visual Studio Code$"]
+
+# --- Clock / calendar ---------------------------------------------------------
+[[module]]
+id = "clock"
+type = "clock"
+enabled = true
+
+[module.clock]
+time_format = "%H:%M"
+date_format = "%a %d %b"
+show_date = true
+show_seconds = false
+timezone = "system"          # "system" or IANA tz name, e.g. "Asia/Kathmandu"
+locale = "en_US"
+click_action = "toggle_calendar"
+tooltip_format = "%A, %d %B %Y — %H:%M:%S %Z"
+
+[module.clock.calendar_popup]
+enabled = true
+first_day_of_week = "monday"
+show_week_numbers = true
+highlight_today = true
+
+# --- System tray ---------------------------------------------------------------
+[[module]]
+id = "tray"
+type = "tray"
+enabled = true
+
+[module.tray]
+icon_size = 16
+spacing = 8
+reverse_order = false
+hide_passive = false
+pinned = ["nm-applet", "blueman"]
+hidden = ["indicator-keyboard"]
+
+# --- Network status --------------------------------------------------------------
+[[module]]
+id = "network"
+type = "network"
+enabled = true
+
+[module.network]
+interface = "auto"           # "auto" or explicit iface name e.g. "wlan0"
+show_ssid = true
+show_speed = false
+poll_interval_ms = 3000
+format_wifi = "{icon} {ssid}"
+format_ethernet = "{icon} {ifname}"
+format_disconnected = "{icon} Disconnected"
+click_action = "open_network_manager"
+icons = { excellent = "󰤨", good = "󰤥", fair = "󰤢", weak = "󰤟", offline = "󰤮" }
+
+# --- Bluetooth ----------------------------------------------------------------------
+[[module]]
+id = "bluetooth"
+type = "bluetooth"
+enabled = true
+
+[module.bluetooth]
+show_battery = true
+show_connected_only = false
+click_action = "toggle_bluetooth"
+right_click_action = "open_bluetooth_settings"
+
+# --- Audio / volume ---------------------------------------------------------------------
+[[module]]
+id = "audio"
+type = "audio"
+enabled = true
+
+[module.audio]
+backend = "pipewire"          # "pipewire" | "pulseaudio" | "alsa"
+show_percentage = true
+scroll_step = 5
+scroll_to_change_volume = true
+middle_click_action = "toggle_mute"
+right_click_action = "open_mixer"
+icons = { muted = "󰝟", low = "󰕿", medium = "󰖀", high = "󰕾" }
+
+[module.audio.osd]
+enabled = true
+timeout_ms = 1500
+position = "top_center"
+
+# --- Battery / power -------------------------------------------------------------------------
+[[module]]
+id = "battery"
+type = "battery"
+enabled = true
+
+[module.battery]
+poll_interval_ms = 5000
+show_percentage = true
+show_time_remaining = true
+warning_threshold = 20
+critical_threshold = 10
+notify_on_critical = true
+notify_on_full = true
+icons_charging    = ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
+icons_discharging = ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+
+# --- CPU / memory / temperature (system stats) --------------------------------------------------
+[[module]]
+id = "system_stats"
+type = "system_stats"
+enabled = false
+
+[module.system_stats]
+poll_interval_ms = 2000
+show_cpu = true
+show_memory = true
+show_temperature = true
+temperature_sensor = "auto"
+cpu_format = "󰻠 {usage}%"
+mem_format = "󰍛 {used}/{total}"
+temp_format = "󰔏 {temp}°C"
+temp_warning_c = 75
+temp_critical_c = 90
+
+# --- Power menu ---------------------------------------------------------------------------------
+[[module]]
+id = "power_menu"
+type = "power_menu"
+enabled = true
+
+[module.power_menu]
+icon = "⏻"
+confirm_actions = ["shutdown", "reboot"]
+confirm_timeout_ms = 4000
+
+[module.power_menu.actions]
+lock     = "loginctl lock-session"
+logout   = "niri msg action quit"
+suspend  = "systemctl suspend"
+hibernate = "systemctl hibernate"
+reboot   = "systemctl reboot"
+shutdown = "systemctl poweroff"
+
+# --- Custom script/shell module (generic escape hatch) -------------------------------------------
+[[module]]
+id = "custom_uptime"
+type = "custom"
+enabled = false
+
+[module.custom]
+exec = "uptime -p"
+interval_ms = 60000
+format = "{stdout}"
+click_exec = ""
+tooltip_exec = ""
+signal = 8              # optional POSIX realtime signal (SIGRTMIN+n) to trigger refresh
+
+
+##############################################################################
+# [gestures] — Pointer/touch interactions on the bar itself
+##############################################################################
+[gestures]
+scroll_on_bar_switches_workspace = false
+swipe_up_reveals_overview = false
+double_click_toggles_maximize_focused = false
+
+
+##############################################################################
+# [animations] — Motion and transitions
+##############################################################################
+[animations]
+enabled = true
+workspace_switch_ms = 150
+module_fade_ms = 100
+easing = "ease_out_cubic"
+
+
+##############################################################################
+# [notifications] — Bar-integrated notification popups (optional)
+##############################################################################
+[notifications]
+enabled = false
+position = "top_right"
+timeout_ms = 5000
+max_visible = 3
+grouping = true
+do_not_disturb_hotkey = "Super+Shift+D"
+
+
+##############################################################################
+# [logging] — Diagnostics for the bar process itself
+##############################################################################
+[logging]
+level = "warn"          # "trace" | "debug" | "info" | "warn" | "error"
+log_to_file = false
+log_path = "~/.local/state/bar/bar.log"
+max_log_size_mb = 5
