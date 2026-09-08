@@ -53,6 +53,25 @@ Singleton {
                     property real size: 24
                 }
             }
+
+            // Defines the widgets that should be shown in each section and their order.
+            property JsonObject layout: JsonObject {
+                property JsonObject left: JsonObject {
+                    property list<string> widgets: ["workspaces", "focusedWindow"]
+                    property bool separator: true
+                    property int spacing: 6
+                }
+                property JsonObject center: JsonObject {
+                    property list<string> widgets: []
+                    property bool separator: true
+                    property int spacing: 6
+                }
+                property JsonObject right: JsonObject {
+                    property list<string> widgets: ["cpu", "ram", "network", "battery", "clock"]
+                    property bool separator: true
+                    property int spacing: 6
+                }
+            }
             property JsonObject bar: JsonObject {
                 property string position: Types.positionToString(Types.Position.Top)
                 property int size: 30

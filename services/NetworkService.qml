@@ -6,7 +6,6 @@ import Quickshell.Networking
 
 Singleton {
     id: root
-    Component.onCompleted: console.log("Network Singleton Loaded")
 
     // Common
     property real rateUp: 0.0
@@ -25,7 +24,6 @@ Singleton {
         if (!activeDevice)
             return null;
         for (const network of activeDevice.networks.values) {
-            console.log("checking network : ", network.name, network.signalStrength);
             if (network.connected)
                 return network;
         }
