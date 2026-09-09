@@ -62,10 +62,17 @@
     "scale": 1,
     "updateInterval": 1000,
     "numTopProcesses": 5,
+    "temperature" : {
+      "icon" : true,
+      "iconSize" : 20,
+      "visible" : true
+    },
     "icon": {
+      "visible" : true,
       "enabled": true,
       "scale": 0.85,
-      "color": "#777777"
+      "color": "#ffffff",
+      "size" : 24
     },
     "graph": {
       "enabled": true,
@@ -99,7 +106,7 @@
     "scale": 1,
     "rateUpdateInterval": 1000,
     "infoUpdateInterval": 5,
-    "externalUpdateInterval": 600,
+    "externalUpdateInterval": 2000,
     "rates": {
       "enabled": true,
       "baseUnit": "KiB"
@@ -109,9 +116,10 @@
       "history": 30
     },
     "icon": {
+      "visible" : true,
       "enabled": true,
       "scale": 1.2,
-      "color": "#777777"
+      "color": "#ffffff"
     },
     "colors": {
       "rx": "#1F77B4",

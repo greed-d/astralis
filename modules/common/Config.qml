@@ -14,7 +14,7 @@ Singleton {
         blockLoading: true
 
         //HACK: needed to read workspaces.maxCount from `config.toml?`
-        preload: false
+        // preload: false
         JsonAdapter {
             id: adapter
 
@@ -72,13 +72,34 @@ Singleton {
                     property int spacing: 6
                 }
             }
+
+            property JsonObject cpu: JsonObject {
+                property real scale: 1
+                property int updateInterval: 1000
+                property int numTopProcesses: 10
+                property JsonObject temperature: JsonObject {
+                    property bool visible: true
+                    property bool icon: true
+                    property int iconSize: 20
+                }
+                property JsonObject icon: JsonObject {
+                    property bool visible: false
+                    property bool enabled: true
+                    property real scale: 1
+                    property real size: 24
+                    property string color: "#777777" // Need to change this in future
+                }
+            }
+
             property JsonObject bar: JsonObject {
                 property string position: Types.positionToString(Types.Position.Top)
                 property int size: 30
             }
             property JsonObject network: JsonObject {
                 property real scale: 1
+                property int externalUpdateInterval: 1000
                 property JsonObject icon: JsonObject {
+                    property bool visible: true
                     property bool enabled: true
                     property real scale: 1
                     property string color: "black" // Need to change this in future
