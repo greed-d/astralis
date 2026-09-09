@@ -15,9 +15,9 @@ Singleton {
 
     property var topProcesses: []
     property var loadAvg: []
-    property int cpuUpdateInterval: Config.data.cpu.updateInterval
+    property int cpuUpdateInterval: Config.cpu.updateInterval
 
-    property int numTopProcesses: Config.data.cpu.numTopProcesses || 5
+    property int numTopProcesses: Config.cpu.numTopProcesses || 5
 
     Timer {
         interval: 1000
@@ -66,10 +66,11 @@ Singleton {
     }
 
     Timer {
-        interval: 500
+        interval: 1500
         running: true
         repeat: true
         onTriggered: cpuUsageProc.running = true
+        triggeredOnStart: true
     }
 
     Process {
