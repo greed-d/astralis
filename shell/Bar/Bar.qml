@@ -39,7 +39,7 @@ Scope {
                 }
                 Network {}
 
-                // add more left-side modules here
+                WaylandWindow {}
             }
             RowLayout {
                 id: rowCenter
