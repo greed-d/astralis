@@ -23,10 +23,46 @@ Scope {
                 right: true
             }
 
-            Network {
+            RowLayout {
+                id: rowLeft
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 8
+                CpuUsage {}
+                Text {
+                    text: "•"
+                    color: Config.data.theme.colors.textMuted
+                    visible: cpuTemp.visible
+                }
+                CpuTemp {
+                    visible: Config.data.cpu.temperature.visible
+                }
+                Network {}
+
+                // add more left-side modules here
+            }
+            RowLayout {
+                id: rowCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 10
+
+                CpuUsage {}
+                Network {}
+                // add more left-side modules here
+            }
+
+            RowLayout {
+                id: rowRight
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
+                spacing: 10
+
                 anchors.rightMargin: 8
+
+                CpuUsage {}
+                Network {}
+                // add more left-side modules here
             }
         }
     }
