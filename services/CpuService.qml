@@ -48,9 +48,26 @@ Singleton {
                         });
                     }
                 }
-                topProcesses = tp;
+                root.topProcesses = tp;
                 console.log(topProcesses);
             }
         }
+    }
+
+    Process {
+        id: cpuUsageProc
+        command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                root.overallUsage = this.text;
+            }
+        }
+    }
+
+    Timer {
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: cpuUsageProc.running = true
     }
 }
