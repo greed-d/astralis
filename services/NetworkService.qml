@@ -3,6 +3,7 @@ pragma Singleton
 import Quickshell
 import QtQuick
 import Quickshell.Networking
+import qs.modules.common
 
 Singleton {
     id: root
@@ -11,6 +12,7 @@ Singleton {
     property real rateUp: 0.0
     property real rateDown: 0.0
     property string wanIP: ""
+    property int updateInterval: Config.data.network.externalUpdateInterval
 
     readonly property var activeDevice: {
         for (const device of Networking.devices.values) {
@@ -37,4 +39,11 @@ Singleton {
     property string connectedStatus: activeDevice ? ConnectionState.toString(activeDevice.state) : "unknown"
     property string ssid: activeNetwork ? activeNetwork.name : ""
     property int signalStrength: activeNetwork ? Math.round(activeNetwork.signalStrength * 100) : 0
+
+    Timer {
+        interval: root.updateInterval
+        repeat: true
+        running: networkType == "Wifi"
+        onTriggered: root.activeDevice.scannerEnabled = true
+    }
 }

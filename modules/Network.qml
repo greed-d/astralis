@@ -12,6 +12,7 @@ Row {
     property int iconHeight: 20
     property real iconSize: Config.data.theme.font.size * Config.data.network.icon.scale
     property string iconColor: Config.data.network.icon.color
+    property bool iconVisible: Config.data.network.icon.visible
     property string textColor: Config.data.theme.colors.text
     property string fontFamily: Config.data.theme.font.family
     property int fontSize: Config.data.theme.font.size
@@ -20,13 +21,6 @@ Row {
     readonly property bool isWifi: networkType == "Wifi"
     readonly property bool isLan: networkType == "Wired"
     readonly property int wifiTier: NetworkService.signalStrength >= 75 ? 3 : NetworkService.signalStrength >= 50 ? 2 : NetworkService.signalStrength >= 25 ? 1 : 0
-
-    Timer {
-        interval: 1000
-        repeat: true
-        running: root.isWifi
-        onTriggered: NetworkService.activeDevice.scannerEnabled = true
-    }
 
     SignalWifiOff {
         visible: Config.data.network.icon.enabled && !root.isWifi && !root.isLan
@@ -78,13 +72,13 @@ Row {
     }
     Text {
         visible: root.isWifi && NetworkService.ssid !== ""
-        text: NetworkService.signalStrength + "%"
+        text: NetworkService.ssid + " ( " + NetworkService.signalStrength + "% )"
         color: root.textColor
         font.family: root.fontFamily
         font.pixelSize: iconSize
     }
     LanConnectedIcon {
-        visible: root.isLan
+        visible: root.isLan && root.iconVisible
         anchors.verticalCenter: parent.verticalCenter
         iconHeight: root.iconSize
         iconColor: root.iconColor
