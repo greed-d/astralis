@@ -60,7 +60,7 @@ Scope {
 
                 anchors.rightMargin: 8
 
-                CpuUsage {}
+                Memory {}
                 Network {}
                 // add more left-side modules here
             }

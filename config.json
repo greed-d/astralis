@@ -111,6 +111,13 @@
       "enabled": true
     }
   },
+  "memory": {
+    "scale": 1,
+    "icon": {
+      "size": 24,
+      "color": "#777777"
+    }
+  },
   "network": {
     "scale": 1,
     "rateUpdateInterval": 1000,

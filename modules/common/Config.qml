@@ -105,6 +105,12 @@ Singleton {
                     property string color: "black" // Need to change this in future
                 }
             }
+            property JsonObject memory: JsonObject {
+                property JsonObject icon: JsonObject {
+                    property int size: 24
+                    property string color: "#777777"
+                }
+            }
         }
     }
 }
