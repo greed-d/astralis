@@ -8,42 +8,27 @@ import qs.modules.common
 Singleton {
     id: root
 
-    // Common
     property real rateUp: 0.0
     property real rateDown: 0.0
     property string wanIP: ""
     property int updateInterval: Config.data.network.externalUpdateInterval
 
-    readonly property var activeDevice: {
-        for (const device of Networking.devices.values) {
-            if (device.connected)
-                return device;
-        }
-        return null;
-    }
+    // Concise device & network lookups using Array.find and optional chaining
+    readonly property var activeDevice: Networking.devices.values.find(d => d.connected) ?? null
+    readonly property var activeNetwork: activeDevice?.networks.values.find(n => n.connected) ?? null
 
-    readonly property var activeNetwork: {
-        if (!activeDevice)
-            return null;
-        for (const network of activeDevice.networks.values) {
-            if (network.connected)
-                return network;
-        }
-        return null;
-    }
+    readonly property string activeInterface: activeDevice?.name ?? ""
+    readonly property string deviceName: activeInterface
+    readonly property string networkType: activeDevice ? DeviceType.toString(activeDevice.type) : "Unknown"
+    readonly property string connectedStatus: activeDevice ? ConnectionState.toString(activeDevice.state) : "unknown"
 
-    property string activeInterface: activeDevice ? activeDevice.name : ""
-    property string deviceName: activeDevice ? activeDevice.name : ""
-    property string networkType: activeDevice ? DeviceType.toString(activeDevice.type) : "Unknown"
-
-    property string connectedStatus: activeDevice ? ConnectionState.toString(activeDevice.state) : "unknown"
-    property string ssid: activeNetwork ? activeNetwork.name : ""
-    property int signalStrength: activeNetwork ? Math.round(activeNetwork.signalStrength * 100) : 0
+    readonly property string ssid: activeNetwork?.name ?? ""
+    readonly property int signalStrength: activeNetwork ? Math.round(activeNetwork.signalStrength * 100) : 0
 
     Timer {
         interval: root.updateInterval
         repeat: true
-        running: networkType == "Wifi"
+        running: root.networkType === "Wifi" && root.activeDevice !== null
         onTriggered: root.activeDevice.scannerEnabled = true
     }
 }

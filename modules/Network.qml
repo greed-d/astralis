@@ -1,93 +1,64 @@
-// modules/Network.qml
 import QtQuick.Shapes
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Networking
 import qs.modules.common
 import qs.modules.icons
 import qs.services
 
-Row {
+RowLayout {
     id: root
-    spacing: Config.data.network.icon.enabled ? 6 : 0
-    property int iconHeight: 20
-    property real iconSize: Config.data.theme.font.size * Config.data.network.icon.scale
-    property string iconColor: Config.data.network.icon.color
-    property bool iconVisible: Config.data.network.icon.visible
-    property string textColor: Config.data.theme.colors.text
-    property string fontFamily: Config.data.theme.font.family
-    property int fontSize: Config.data.theme.font.size
+    spacing: iconEnabled ? 6 : 0
 
-    readonly property var networkType: NetworkService.networkType
-    readonly property bool isWifi: networkType == "Wifi"
-    readonly property bool isLan: networkType == "Wired"
-    readonly property int wifiTier: NetworkService.signalStrength >= 75 ? 3 : NetworkService.signalStrength >= 50 ? 2 : NetworkService.signalStrength >= 25 ? 1 : 0
+    // Config Shortcuts
+    readonly property var netConfig: Config.data.network.icon
+    readonly property var fontConfig: Config.theme.font
 
+    property real iconSize: fontConfig.size * netConfig.scale
+    property string iconColor: netConfig.color
+    property bool iconEnabled: netConfig.enabled
+    property bool iconVisible: netConfig.visible
+    property string textColor: Config.theme.colors.text
+    property string fontFamily: fontConfig.family
+    property int fontSize: fontConfig.size
+
+    // Network State Helpers
+    readonly property string networkType: NetworkService.networkType
+    readonly property bool isWifi: networkType === "Wifi"
+    readonly property bool isLan: networkType === "Wired"
+    readonly property bool isDisconnected: !isWifi && !isLan
+
+    readonly property int signal: NetworkService.signalStrength
+    readonly property int wifiTier: signal >= 75 ? 3 : signal >= 50 ? 2 : signal >= 25 ? 1 : 0
+
+    // Icons
     SignalWifiOff {
-        visible: Config.data.network.icon.enabled && !root.isWifi && !root.isLan
-        anchors.verticalCenter: parent.verticalCenter
+        visible: root.iconEnabled && root.isDisconnected
+        Layout.alignment: Qt.AlignVCenter
         iconHeight: root.iconSize
         iconColor: root.iconColor
     }
-    Text {
-        visible: Config.data.network.icon.enabled && !root.isWifi && !root.isLan
-        text: "Disconnected"
-        color: root.iconColor
-        font.family: root.fontFamily
-        font.pixelSize: root.fontSize
+
+    WifiIcon {
+        visible: root.iconEnabled && root.isWifi
+        Layout.alignment: Qt.AlignVCenter
+        tier: root.wifiTier
+        iconHeight: root.iconSize
+        iconColor: "white"
     }
 
-    Loader {
-        anchors.verticalCenter: parent.verticalCenter
-        active: Config.data.network.icon.enabled && root.isWifi
-        sourceComponent: [wifiIcon1, wifiIcon2, wifiIcon3, wifiIcon4][root.wifiTier]
-    }
-
-    Component {
-        id: wifiIcon1
-        WifiIcon1Bar {
-            iconHeight: root.iconSize
-            iconColor: root.iconColor
-        }
-    }
-    Component {
-        id: wifiIcon2
-        WifiIcon2Bar {
-            iconHeight: root.iconSize
-            iconColor: root.iconColor
-        }
-    }
-    Component {
-        id: wifiIcon3
-        WifiIcon3Bar {
-            iconHeight: root.iconSize
-            iconColor: root.iconColor
-        }
-    }
-    Component {
-        id: wifiIcon4
-        WifiIcon4Bar {
-            iconHeight: root.iconSize
-            iconColor: root.iconColor
-        }
-    }
-    Text {
-        visible: root.isWifi && NetworkService.ssid !== ""
-        text: NetworkService.ssid + " ( " + NetworkService.signalStrength + "% )"
-        color: root.textColor
-        font.family: root.fontFamily
-        font.pixelSize: iconSize
-    }
     LanConnectedIcon {
         visible: root.isLan && root.iconVisible
-        anchors.verticalCenter: parent.verticalCenter
+        Layout.alignment: Qt.AlignVCenter
         iconHeight: root.iconSize
         iconColor: root.iconColor
     }
 
+    // Consolidated Text Element
     Text {
-        visible: root.isLan
-        text: "Connected"
-        color: root.textColor
+        visible: root.isDisconnected || (root.isWifi && NetworkService.ssid !== "") || root.isLan
+        text: root.isDisconnected ? "Disconnected" : root.isWifi ? `${NetworkService.ssid} ( ${root.signal}% )` : "Connected"
+        color: root.isDisconnected ? root.iconColor : root.textColor
         font.family: root.fontFamily
         font.pixelSize: root.fontSize
     }
