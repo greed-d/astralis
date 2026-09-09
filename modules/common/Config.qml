@@ -6,6 +6,11 @@ import Quickshell.Io
 Singleton {
     property var data: adapter
 
+    readonly property alias theme: adapter.theme
+    readonly property alias cpu: adapter.cpu
+    readonly property alias clock: adapter.clock
+    readonly property alias memory: adapter.memory
+
     FileView {
         path: Quickshell.shellPath("config.json")
         watchChanges: true
@@ -105,6 +110,24 @@ Singleton {
                     property string color: "black" // Need to change this in future
                 }
             }
+
+            property JsonObject clock: JsonObject {
+                property real scale: 1
+                property JsonObject time: JsonObject {
+                    property bool enabled: true
+                    property string format: "hh:mm"
+                }
+                property JsonObject date: JsonObject {
+                    property bool enabled: true
+                    property string format: "yyyy-MM-dd"
+                }
+                property JsonObject font: JsonObject {
+                    property string family
+                    property real scale: 1.1
+                    property int weight: 400
+                }
+            }
+
             property JsonObject memory: JsonObject {
                 property JsonObject icon: JsonObject {
                     property int size: 24

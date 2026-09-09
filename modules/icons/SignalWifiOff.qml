@@ -7,8 +7,8 @@ import QtQuick.Effects
 
 Item {
     id: __qt_toplevel
-    property var iconHeight: 24
     property var iconColor: "#e3e3e3"
+    property var iconHeight: 24
     implicitWidth: iconHeight
     implicitHeight: iconHeight
     component AnimationsInfo: QtObject {

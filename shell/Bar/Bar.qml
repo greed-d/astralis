@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import qs.modules.common
 import qs.modules
@@ -12,9 +13,14 @@ Scope {
         PanelWindow {
             id: bar
             required property var modelData
+            margins {
+                top: 8
+                left: 8
+                right: 8
+            }
             screen: modelData
             implicitHeight: Config.data.bar.size
-            color: Config.data.theme.colors.background
+            color: Config.theme.colors.background
 
             anchors {
                 top: root.position == Types.Position.Top
@@ -28,28 +34,35 @@ Scope {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 8
-                CpuUsage {}
-                Text {
-                    text: "•"
-                    color: Config.data.theme.colors.textMuted
-                    visible: cpuTemp.visible
-                }
-                CpuTemp {
-                    visible: Config.data.cpu.temperature.visible
-                }
-                Network {}
 
                 WaylandWindow {}
+
+                // CPU Container (Collapses automatically when temp is hidden)
+                RowLayout {
+
+                    CpuUsage {
+                        Layout.preferredWidth: implicitWidth + 4 // Fixed width for usage
+                    }
+
+                    Text {
+                        text: "•"
+                        color: Config.theme.colors.textMuted
+                        visible: cpuTemp.visible
+                    }
+
+                    CpuTemp {
+                        id: cpuTemp
+                        visible: Config.cpu.temperature.visible
+                        Layout.preferredWidth: implicitWidth + 4 // Increased width to fit icon + text
+                    }
+                }
             }
             RowLayout {
                 id: rowCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 10
-
-                CpuUsage {}
-                Network {}
-                // add more left-side modules here
+                Time {}
             }
 
             RowLayout {
@@ -62,7 +75,6 @@ Scope {
 
                 Memory {}
                 Network {}
-                // add more left-side modules here
             }
         }
     }
