@@ -155,11 +155,11 @@
     "scale": 1,
     "time": {
       "enabled": true,
-      "format": "hh:mm"
+      "format": "hh:mm:ss"
     },
     "date": {
       "enabled": true,
-      "format": "yyyy-MM-dd"
+      "format": "ddd • MM.dd"
     },
     "font": {
       "family": "",
