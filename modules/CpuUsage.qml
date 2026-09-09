@@ -11,6 +11,7 @@ Row {
     property int iconSize: Config.data.cpu.icon.size
     property string iconColor: Config.data.cpu.icon.color
     property string textColor: Config.data.theme.colors.textMuted
+    property string cpuIconVisible: Config.data.cpu.icon.visible
     property real cpuUsage: CpuService.overallUsage
 
     CPUIcon {
@@ -20,7 +21,8 @@ Row {
         iconColor: root.iconColor
     }
     Text {
-        text: CpuService.overallUsage + "%"
+        width: 35
+        text: Math.round(root.cpuUsage) + "%"
         color: root.textColor
     }
 }
