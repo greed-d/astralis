@@ -14,12 +14,12 @@ Only the network module is implemented right now. Everything else described belo
 
 Modules not yet implemented, in suggested build order.
 
-- [ ] Clock and date module
-- [ ] Workspaces / window manager module
+- [x] Clock and date module
+- [x] Workspaces / window manager module
+- [x] CPU and memory usage module
 - [ ] System tray
 - [ ] Volume / audio module
 - [ ] Battery module
-- [ ] CPU and memory usage module
 - [ ] Notifications module
 - [ ] Media player controls
 
