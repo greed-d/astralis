@@ -34,7 +34,11 @@ Scope {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 8
+                spacing: 12
 
+                WorkspaceIndicator {
+                    screen: bar.screen
+                }
                 WaylandWindow {}
 
                 // CPU Container (Collapses automatically when temp is hidden)

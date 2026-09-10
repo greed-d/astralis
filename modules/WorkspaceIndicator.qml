@@ -1,0 +1,44 @@
+import QtQuick
+import Quickshell
+import QtQuick.Layouts
+import qs.services
+
+Item {
+    id: root
+
+    property var screen: null
+    property var ws: UmbrielWorkspaceIndicatorService.workspaces
+
+    readonly property var filteredWorkspaces:
+        UmbrielWorkspaceIndicatorService.forOutput(screen ? screen.name : null)
+
+    implicitWidth: layout.implicitWidth
+    implicitHeight: layout.implicitHeight
+
+    RowLayout {
+        id: layout
+        spacing: 6
+
+        Repeater {
+            model: root.filteredWorkspaces
+
+            delegate: Rectangle {
+                id: pill
+                required property var modelData
+
+                Layout.preferredWidth: 22
+                Layout.preferredHeight: 22
+                radius: 15
+                color: modelData.focused ? "#89b4fa" : (modelData.active ? "#45475a" : "#313244")
+
+                Text {
+                    anchors.centerIn: parent
+                    text: modelData.name ?? ""
+                    font.pixelSize: 12
+                    font.bold: modelData.focused ?? false
+                    color: modelData.focused ? "#1e1e2e" : "#cdd6f4"
+                }
+            }
+        }
+    }
+}
