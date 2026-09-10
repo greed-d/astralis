@@ -29,10 +29,10 @@ Item {
                 id: pill
                 required property var modelData
 
-                Layout.preferredWidth: 22
-                Layout.preferredHeight: 22
+                Layout.preferredWidth: 32
+                Layout.preferredHeight: 32
                 radius: 15
-                color: modelData.focused ? "#89b4fa" : (modelData.active ? "#45475a" : "#313244")
+                color: modelData.focused ? "#89b4fa" : (modelData.active ? "#ffffff" : "#313244")
 
                 Text {
                     anchors.centerIn: parent

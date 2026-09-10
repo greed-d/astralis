@@ -39,8 +39,6 @@ RowLayout {
 
     IconImage {
         source: Quickshell.iconPath(activeIconPath)
-        implicitWidth: 20
-        implicitHeight: 20
         Layout.preferredWidth: 20
         Layout.preferredHeight: 20
         Layout.alignment: Qt.AlignVCenter
