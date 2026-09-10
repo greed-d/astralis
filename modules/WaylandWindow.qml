@@ -15,26 +15,26 @@ RowLayout {
     readonly property string activeIconPath: appEntry?.icon ?? ""
 
     // --- DEBUG LOGGERS ---
-    onRawAppIdChanged: {
-        console.log("----------------------------------------");
-        console.log("[DEBUG] rawAppId:", rawAppId);
-    }
-
-    onAppEntryChanged: {
-        if (appEntry) {
-            console.log("[DEBUG] appEntry.id:", appEntry.id);
-            console.log("[DEBUG] appEntry.name:", appEntry.name);
-            console.log("[DEBUG] appEntry.icon:", appEntry.icon);
-            console.log("[DEBUG] appEntry.exec:", appEntry.exec);
-        } else {
-            console.log("[DEBUG] appEntry: null (No match found)");
-        }
-    }
-
-    onActiveIconPathChanged: {
-        console.log("[DEBUG] activeIconPath:", activeIconPath);
-        console.log("[DEBUG] Quickshell.iconPath():", Quickshell.iconPath(activeIconPath));
-    }
+    // onRawAppIdChanged: {
+    //     console.log("----------------------------------------");
+    //     console.log("[DEBUG] rawAppId:", rawAppId);
+    // }
+    //
+    // onAppEntryChanged: {
+    //     if (appEntry) {
+    //         console.log("[DEBUG] appEntry.id:", appEntry.id);
+    //         console.log("[DEBUG] appEntry.name:", appEntry.name);
+    //         console.log("[DEBUG] appEntry.icon:", appEntry.icon);
+    //         console.log("[DEBUG] appEntry.exec:", appEntry.exec);
+    //     } else {
+    //         console.log("[DEBUG] appEntry: null (No match found)");
+    //     }
+    // }
+    //
+    // onActiveIconPathChanged: {
+    //     console.log("[DEBUG] activeIconPath:", activeIconPath);
+    //     console.log("[DEBUG] Quickshell.iconPath():", Quickshell.iconPath(activeIconPath));
+    // }
     // ---------------------
 
     IconImage {
