@@ -20,7 +20,7 @@ Scope {
             }
             screen: modelData
             implicitHeight: Config.data.bar.size
-            color: Config.theme.colors.background
+            color: "transparent"
 
             anchors {
                 top: root.position == Types.Position.Top
@@ -28,17 +28,22 @@ Scope {
                 left: true
                 right: true
             }
+    Rectangle {
+        anchors.fill: parent
+        radius: 12
+        color: Config.theme.colors.background
+    }
 
             RowLayout {
                 id: rowLeft
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: 8
+                anchors.leftMargin: 15
                 spacing: 12
 
                 WorkspaceIndicator {
                     screen: bar.screen
-                    onlyActive: true
+                    onlyActive: false
                 }
                 WaylandWindow {}
 
@@ -76,7 +81,7 @@ Scope {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 10
 
-                anchors.rightMargin: 8
+                anchors.rightMargin: 15
 
                 Memory {}
                 Network {}
