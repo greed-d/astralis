@@ -7,6 +7,7 @@ Singleton {
     id: root
     property var screen: null
     property var workspaces: []
+    property bool onlyActive: false
     readonly property var filteredWorkspaces: screen ? workspaces.filter(w => w.output === screen.name) : workspaces
     function forOutput(outputName) {
         return outputName ? workspaces.filter(w => w.output === outputName) : workspaces;

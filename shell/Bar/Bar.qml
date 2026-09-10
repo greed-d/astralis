@@ -38,6 +38,7 @@ Scope {
 
                 WorkspaceIndicator {
                     screen: bar.screen
+                    onlyActive: true
                 }
                 WaylandWindow {}
 

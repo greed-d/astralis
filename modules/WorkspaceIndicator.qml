@@ -1,16 +1,19 @@
 import QtQuick
 import Quickshell
 import QtQuick.Layouts
-import qs.services
+import qs.services.compositor
 
 Item {
     id: root
 
     property var screen: null
     property var ws: UmbrielWorkspaceIndicatorService.workspaces
+    property bool onlyActive : false
 
-    readonly property var filteredWorkspaces:
-        UmbrielWorkspaceIndicatorService.forOutput(screen ? screen.name : null)
+    readonly property var filteredWorkspaces: {
+        const list = UmbrielWorkspaceIndicatorService.forOutput(screen ? screen.name : null)
+        return onlyActive ? list.filter(w => w.focused) : list
+}
 
     implicitWidth: layout.implicitWidth
     implicitHeight: layout.implicitHeight
@@ -37,6 +40,11 @@ Item {
                     font.pixelSize: 12
                     font.bold: modelData.focused ?? false
                     color: modelData.focused ? "#1e1e2e" : "#cdd6f4"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: UmbrielWorkspaceIndicatorService.switchTo(modelData.index)
                 }
             }
         }
