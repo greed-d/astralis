@@ -16,10 +16,15 @@ RowLayout {
     property bool cpuTempIconVisible: Config.cpu.temperature.icon
 
     CPUTemp {
-        visible: root.cpuTempVisible
+        visible: root.cpuTempIconVisible
         iconSize: root.iconSize
         Layout.alignment: Qt.AlignVCenter
     }
+    // CpuTempAlt {
+    //     visible: root.cpuTempIconVisible
+    //     iconSize: root.iconSize
+    //     Layout.alignment: Qt.AlignVCenter
+    // }
     Text {
         visible: root.cpuTempVisible
 
