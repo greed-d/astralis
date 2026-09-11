@@ -15,6 +15,11 @@ RowLayout {
         color: root.textColor
     }
     Text {
+        text: "  |  "
+        Layout.alignment: Qt.AlignVCenter
+        color: root.textColor
+    }
+    Text {
         Layout.alignment: Qt.AlignVCenter
         text: TimeService.date
         color: root.textColor
