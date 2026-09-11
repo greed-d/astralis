@@ -13,15 +13,31 @@ Singleton {
         return outputName ? workspaces.filter(w => w.output === outputName) : workspaces;
     }
     function switchTo(index) {
-        Quickshell.execDetached(["umbriel", "msg", `workspace-switch:${index.toString()}`]);
+        const payload = JSON.stringify({
+            cmd: "msg",
+            arg: `workspace-switch:${index}`
+        }) + "\n";
+        umbrielSocket.write(payload);
+        umbrielSocket.flush();
     }
 
-    Process {
-        id: wsproc
-        command: ["umbriel", "subscribe", "workspaces"]
-        running: true
+    Socket {
+        id: umbrielSocket
+        path: Quickshell.env("UMBRIEL_SOCKET")
+        connected: true
 
-        stdout: SplitParser {
+        onConnectedChanged: {
+            if (connected) {
+                umbrielSocket.write('{"cmd":"subscribe","events":["workspaces"]}\n');
+                umbrielSocket.flush();
+            } else {
+                reconnectTimer.start();
+            }
+        }
+
+        onError: error => console.warn("umbriel socket error:", error)
+
+        parser: SplitParser {
             onRead: line => {
                 if (!line || line.trim().length === 0)
                     return;
@@ -29,26 +45,19 @@ Singleton {
                 try {
                     parsed = JSON.parse(line);
                 } catch (e) {
+                    console.warn("invalid JSON:", line);
                     return;
                 }
-
                 if (parsed.event === "workspaces" && Array.isArray(parsed.data)) {
                     root.workspaces = parsed.data;
-                } else {
-                    console.warn("WorkspaceService: unexpected payload, ignored:", line);
                 }
             }
         }
-
-        onExited: (code, status) => {
-            console.warn("WorspaceService: umbriel subscribe exited, restart");
-            restartTimer.start();
-        }
     }
+
     Timer {
-        id: restartTimer
-        interval: 1000
-        onTriggered: wsproc.running = true
-        triggeredOnStart: true
+        id: reconnectTimer
+        interval: 250
+        onTriggered: umbrielSocket.connected = true
     }
 }
