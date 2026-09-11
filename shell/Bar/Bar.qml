@@ -28,11 +28,11 @@ Scope {
                 left: true
                 right: true
             }
-    Rectangle {
-        anchors.fill: parent
-        radius: 12
-        color: Config.theme.colors.background
-    }
+            Rectangle {
+                anchors.fill: parent
+                radius: 12
+                color: Config.theme.colors.background
+            }
 
             RowLayout {
                 id: rowLeft
@@ -43,7 +43,7 @@ Scope {
 
                 WorkspaceIndicator {
                     screen: bar.screen
-                    onlyActive: false
+                    onlyActive: true
                 }
                 WaylandWindow {}
 
