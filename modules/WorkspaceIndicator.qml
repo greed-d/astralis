@@ -8,12 +8,12 @@ Item {
 
     property var screen: null
     property var ws: UmbrielWorkspaceIndicatorService.workspaces
-    property bool onlyActive : false
+    property bool onlyActive: false
 
     readonly property var filteredWorkspaces: {
-        const list = UmbrielWorkspaceIndicatorService.forOutput(screen ? screen.name : null)
-        return onlyActive ? list.filter(w => w.focused) : list
-}
+        const list = UmbrielWorkspaceIndicatorService.forOutput(screen ? screen.name : null);
+        return onlyActive ? list.filter(w => w.occupied) : list;
+    }
 
     implicitWidth: layout.implicitWidth
     implicitHeight: layout.implicitHeight
