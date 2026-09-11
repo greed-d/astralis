@@ -7,7 +7,7 @@ import qs.services
 
 Row {
     id: root
-    spacing: 8 // This is here because icon and text nearly kiss
+    spacing: 5
     property int iconSize: Config.cpu.icon.size
     property string iconColor: Config.cpu.icon.color
     property string textColor: Config.theme.colors.text
@@ -15,13 +15,16 @@ Row {
     property real cpuUsage: CpuService.overallUsage
 
     CPUIcon {
+        id: cpuIcon
         visible: root.cpuIconVisible
         anchors.verticalCenter: parent.verticalCenter
-        iconHeight: 20
+        iconHeight: root.iconSize
         iconColor: root.iconColor
     }
     Text {
         text: Math.round(root.cpuUsage) + "%"
         color: root.textColor
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: -(root.iconSize * 80 / 960)
     }
 }
