@@ -9,7 +9,7 @@ import qs.modules.common
 RowLayout {
     id: root
     spacing: 8
-    property string textColor: Config.theme?.colors?.text ?? "#ffffff"
+    property string textColor: Colors.text ?? "#cdd6f4"
     property string rawAppId: WindowService.active?.appId ?? ""
     readonly property DesktopEntry appEntry: DesktopEntries.heuristicLookup(root.rawAppId)
     readonly property string activeIconPath: appEntry?.icon ?? ""

@@ -10,7 +10,7 @@ RowLayout {
     id: root
     property int iconSize: Config.memory.icon.size
     property string iconColor: Config.memory.icon.color
-    property string textColor: Config.theme.colors.text
+    property string textColor: Colors.text
 
     MemoryIcon {
         iconSize: 24

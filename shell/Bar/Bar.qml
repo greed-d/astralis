@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.modules.common
 import qs.modules
+import qs.widgets
 
 Scope {
     id: root
@@ -31,7 +32,7 @@ Scope {
             Rectangle {
                 anchors.fill: parent
                 radius: 12
-                color: Config.theme.colors.background
+                color: Colors.background2
             }
 
             RowLayout {
@@ -56,7 +57,7 @@ Scope {
 
                     Text {
                         text: "•"
-                        color: Config.theme.colors.textMuted
+                        color: Colors.text
                         visible: cpuTemp.visible
                     }
 
@@ -72,7 +73,7 @@ Scope {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 10
-                Time {}
+                Clock {}
             }
 
             RowLayout {

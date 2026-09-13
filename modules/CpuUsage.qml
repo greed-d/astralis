@@ -9,8 +9,8 @@ Row {
     id: root
     spacing: 5
     property int iconSize: Config.cpu.icon.size
-    property string iconColor: Config.cpu.icon.color
-    property string textColor: Config.theme.colors.text
+    property string iconColor: Colors.text
+    property string textColor: Colors.text
     property string cpuIconVisible: Config.cpu.icon.visible
     property real cpuUsage: CpuService.overallUsage
 

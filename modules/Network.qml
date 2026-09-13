@@ -18,7 +18,7 @@ RowLayout {
     property string iconColor: netConfig.color
     property bool iconEnabled: netConfig.enabled
     property bool iconVisible: netConfig.visible
-    property string textColor: Config.theme.colors.text
+    property string textColor: Colors.text
     property string fontFamily: fontConfig.family
     property int fontSize: fontConfig.size
 

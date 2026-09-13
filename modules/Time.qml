@@ -7,7 +7,7 @@ import qs.services
 RowLayout {
     id: root
 
-    property string textColor: Config.theme?.colors?.text ?? "#999999"
+    property string textColor: Colors.text ?? "#cdd6f4"
 
     Text {
         Layout.alignment: Qt.AlignVCenter

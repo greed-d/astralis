@@ -11,7 +11,7 @@ RowLayout {
     spacing: 0
     property int iconSize: Config.cpu.temperature.iconSize
     property string iconColor: Config.cpu.icon.color
-    property string textColor: Config.theme.colors.text
+    property string textColor: Colors.text
     property bool cpuTempVisible: Config.cpu.temperature.visible
     property bool cpuTempIconVisible: Config.cpu.temperature.icon
 
