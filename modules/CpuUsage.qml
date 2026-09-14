@@ -13,18 +13,19 @@ Row {
     property string textColor: Colors.text
     property string cpuIconVisible: Config.cpu.icon.visible
     property real cpuUsage: CpuService.overallUsage
+    readonly property string dynamicColor: root.cpuUsage < 80 ? root.iconColor : Colors.error
 
     CPUIcon {
         id: cpuIcon
         visible: root.cpuIconVisible
         anchors.verticalCenter: parent.verticalCenter
         iconHeight: root.iconSize
-        iconColor: root.iconColor
+        iconColor: root.dynamicColor
     }
     TextBox {
         text: Math.round(root.cpuUsage) + "%"
-        color: root.textColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: -(root.iconSize * 80 / 960)
+        color: root.dynamicColor
     }
 }

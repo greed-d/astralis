@@ -13,12 +13,14 @@ RowLayout {
     property string iconColor: Config.cpu.icon.color
     property string textColor: Colors.text
     property bool cpuTempVisible: Config.cpu.temperature.visible
-    property bool cpuTempIconVisible: Config.cpu.temperature.icon
+    property real cpuTemp: CpuService.cpuTemperature.toFixed(1)
+    readonly property string dynamicColor: cpuTemp < 70 ? root.iconColor : Colors.error
 
     CPUTemp {
         visible: root.cpuTempIconVisible
         iconSize: root.iconSize
         Layout.alignment: Qt.AlignVCenter
+        iconColor: root.dynamicColor
     }
     // CpuTempAlt {
     //     visible: root.cpuTempIconVisible
@@ -27,8 +29,8 @@ RowLayout {
     // }
     TextBox {
         visible: root.cpuTempVisible
-
+        color: root.dynamicColor
         Layout.alignment: Qt.AlignVCenter
-        text: `${CpuService.cpuTemperature.toFixed(1)}°C`
+        text: `${cpuTemp}°C`
     }
 }
