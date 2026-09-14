@@ -54,9 +54,9 @@ Item {
         }
         onWheel: wheel => {
             if (wheel.angleDelta.y > 0) {
-                Commands.volumeUp.running = true;
+                PipewireService.volumeUp(0.05);
             } else {
-                Commands.volumeDown.running = true;
+                PipewireService.volumeDown(0.05);
             }
         }
         cursorShape: Qt.PointingHandCursor
