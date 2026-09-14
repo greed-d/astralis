@@ -27,6 +27,7 @@ Singleton {
     readonly property real length: player?.length ?? 0.0
     readonly property real position: player?.position ?? 0.0
     Component.onCompleted: {
+        console.log("============== MPRIS LOGS ==========");
         console.log("[MprisWidget] player:", root.player);
         console.log("[MprisWidget] trackTitle:", root.title);
         console.log("[MprisWidget] trackArtist:", root.artist);
@@ -37,6 +38,7 @@ Singleton {
         console.log("[MprisWidget] state:", root.state);
         console.log("[MprisWidget] volume:", root.volume);
         console.log("[MprisWidget] state:", Types.playbackStateToString(root.state));
+        console.log("=======================================");
     }
 
     Connections {
