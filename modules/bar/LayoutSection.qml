@@ -18,7 +18,7 @@ RowLayout {
         for (let i = 0; i < widgets.length; i++) {
             const widget = widgetComponents[widgets[i]];
             if (!widget) {
-                console.error(`[ERROR] Invalid Widget : ${widgets[i]}`);
+                console.error(`[Widget] Invalid Widget : ${widgets[i]}`);
                 continue;
             }
 
