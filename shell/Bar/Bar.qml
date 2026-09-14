@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.modules.common
+import qs.modules.bar
 import qs.modules
 import qs.widgets
 
@@ -35,58 +36,101 @@ Scope {
                 color: Colors.background2
             }
 
-            RowLayout {
-                id: rowLeft
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: 15
-                spacing: 12
+            Component {
+                id: separatorComponent
 
+                TextBox {
+                    text: "  |  "
+                }
+            }
+            Component {
+                id: workspacesComponent
                 WorkspaceIndicator {
                     screen: bar.screen
                     onlyActive: true
                 }
+            }
+            Component {
+                id: focusedWindowComponent
                 WaylandWindow {}
+            }
 
-                // CPU Container (Collapses automatically when temp is hidden)
+            Component {
+                id: cpuComponent
                 RowLayout {
-
                     CpuUsage {
-                        Layout.preferredWidth: implicitWidth + 4 // Fixed width for usage
+                        Layout.preferredWidth: implicitWidth
                     }
-
                     Text {
                         text: "•"
                         color: Colors.text
                         visible: cpuTemp.visible
                     }
-
                     CpuTemp {
                         id: cpuTemp
                         visible: Config.cpu.temperature.visible
-                        Layout.preferredWidth: implicitWidth + 4 // Increased width to fit icon + text
+                        Layout.preferredWidth: implicitWidth
                     }
                 }
             }
-            RowLayout {
-                id: rowCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 10
+            Component {
+                id: ramComponent
+                Memory {}
+            }
+            Component {
+                id: networkComponent
+                Network {}
+            }
+            Component {
+                id: mprisComponent
+                Mpris {}
+            }
+            Component {
+                id: clockComponent
                 Clock {}
             }
 
-            RowLayout {
-                id: rowRight
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 10
+            readonly property var widgetComponents: {
+                "workspaces": workspacesComponent,
+                "focusedWindow": focusedWindowComponent,
+                "cpu": cpuComponent,
+                "ram": ramComponent,
+                "network": networkComponent,
+                "mpris": mprisComponent,
+                "clock": clockComponent,
+                "separator": separatorComponent
+            }
 
-                anchors.rightMargin: 15
+            LayoutSection {
+                section: "left"
+                widgetComponents: bar.widgetComponents
 
-                Memory {}
-                Network {}
-                Mpris {}
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    leftMargin: 15
+                }
+            }
+
+            LayoutSection {
+                section: "center"
+                widgetComponents: bar.widgetComponents
+
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    verticalCenter: parent.verticalCenter
+                }
+            }
+
+            LayoutSection {
+                section: "right"
+                widgetComponents: bar.widgetComponents
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    rightMargin: 15
+                }
             }
         }
     }

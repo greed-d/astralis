@@ -10,6 +10,7 @@ Singleton {
     readonly property alias cpu: adapter.cpu
     readonly property alias clock: adapter.clock
     readonly property alias memory: adapter.memory
+    readonly property alias layout: adapter.layout
 
     FileView {
         path: Quickshell.shellPath("config.json")
@@ -67,12 +68,12 @@ Singleton {
                     property int spacing: 6
                 }
                 property JsonObject center: JsonObject {
-                    property list<string> widgets: []
+                    property list<string> widgets: ["clock"]
                     property bool separator: true
                     property int spacing: 6
                 }
                 property JsonObject right: JsonObject {
-                    property list<string> widgets: ["cpu", "ram", "network", "battery", "clock"]
+                    property list<string> widgets: ["cpu", "ram", "network", "battery"]
                     property bool separator: true
                     property int spacing: 6
                 }

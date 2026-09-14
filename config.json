@@ -25,28 +25,19 @@
   },
   "layout": {
     "left": {
-      "widgets": [
-        "workspaces",
-        "focusedWindow"
-      ],
-      "separator": true,
-      "spacing": 6
+      "widgets": ["workspaces", "focusedWindow", "cpu"],
+      "separator": false,
+      "spacing": 12
     },
     "center": {
-      "widgets": [],
+      "widgets": ["clock"],
       "separator": true,
-      "spacing": 6
+      "spacing": 10
     },
     "right": {
-      "widgets": [
-        "cpu",
-        "ram",
-        "network",
-        "battery",
-        "clock"
-      ],
-      "separator": true,
-      "spacing": 6
+      "widgets": ["ram", "network", "mpris"],
+      "separator": false,
+      "spacing": 12
     }
   },
   "bar": {
