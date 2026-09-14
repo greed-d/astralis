@@ -10,11 +10,10 @@ RowLayout {
     id: root
     spacing: 0
     property int iconSize: Config.cpu.temperature.iconSize
-    property string iconColor: Config.cpu.icon.color
-    property string textColor: Colors.text
     property bool cpuTempVisible: Config.cpu.temperature.visible
+    property bool cpuTempIconVisible: Config.cpu.temperature.icon
     property real cpuTemp: CpuService.cpuTemperature.toFixed(1)
-    readonly property string dynamicColor: cpuTemp < 70 ? root.iconColor : Colors.error
+    readonly property string dynamicColor: cpuTemp < 70 ? Colors.text : Colors.error
 
     CPUTemp {
         visible: root.cpuTempIconVisible

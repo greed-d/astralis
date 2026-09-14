@@ -9,11 +9,9 @@ Row {
     id: root
     spacing: 5
     property int iconSize: Config.cpu.icon.size
-    property string iconColor: Colors.text
-    property string textColor: Colors.text
     property string cpuIconVisible: Config.cpu.icon.visible
     property real cpuUsage: CpuService.overallUsage
-    readonly property string dynamicColor: root.cpuUsage < 80 ? root.iconColor : Colors.error
+    readonly property string dynamicColor: root.cpuUsage < 80 ? Colors.text : Colors.error
 
     CPUIcon {
         id: cpuIcon

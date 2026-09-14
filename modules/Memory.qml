@@ -11,12 +11,15 @@ RowLayout {
     property int iconSize: Config.memory.icon.size
     property string iconColor: Config.memory.icon.color
     property string textColor: Colors.text
+    readonly property string dynamicColor: MemoryService.ramPercentUse < 80 ? Colors.text : Colors.error
 
     MemoryIcon {
         iconSize: 24
+        color: root.dynamicColor
     }
     TextBox {
         Layout.alignment: Qt.AlignVCenter
         text: (MemoryService.ramUsed ?? 0).toFixed(1)
+        color: root.dynamicColor
     }
 }
