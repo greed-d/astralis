@@ -25,17 +25,28 @@
   },
   "layout": {
     "left": {
-      "widgets": ["workspaces", "focusedWindow", "cpu"],
+      "widgets": [
+        "workspaces",
+        "focusedWindow",
+        "cpu"
+      ],
       "separator": false,
       "spacing": 12
     },
     "center": {
-      "widgets": ["clock"],
+      "widgets": [
+        "clock"
+      ],
       "separator": true,
       "spacing": 10
     },
     "right": {
-      "widgets": ["ram", "network", "mpris"],
+      "widgets": [
+        "mpris",
+        "ram",
+        "pipewire",
+        "network"
+      ],
       "separator": false,
       "spacing": 12
     }
