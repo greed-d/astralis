@@ -44,11 +44,15 @@ Scope {
                 }
             }
             Component {
-                id: workspacesComponent
+                id: umbrielWorkspacesComponent
                 WorkspaceIndicator {
                     screen: bar.screen
                     onlyActive: true
                 }
+            }
+            Component {
+                id: workspacesComponent
+                UmbrielWorkspaceIndicator {}
             }
             Component {
                 id: focusedWindowComponent
@@ -95,6 +99,7 @@ Scope {
             }
 
             readonly property var widgetComponents: {
+                "umbriel_workspaces": umbrielWorkspacesComponent,
                 "workspaces": workspacesComponent,
                 "focusedWindow": focusedWindowComponent,
                 "cpu": cpuComponent,
