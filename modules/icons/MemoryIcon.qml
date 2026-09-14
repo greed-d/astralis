@@ -29,7 +29,7 @@ Item {
         transformOrigin: Item.TopLeft
         ShapePath {
             id: _qt_node1_fill_stroke
-            strokeColor: "transparent"
+            strokeColor: root.color
             fillColor: root.color
             fillRule: ShapePath.WindingFill
             PathSvg {

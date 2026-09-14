@@ -4,12 +4,13 @@ import QtQuick.VectorImage
 import QtQuick.VectorImage.Helpers
 import QtQuick.Shapes
 import QtQuick.Effects
+import qs.modules.common
 
 Item {
     id: __qt_toplevel
 
     property int iconHeight: 24
-    property string iconColor: "#ffe3e3e3"
+    property string iconColor: Colors.text
     implicitWidth: iconHeight
     implicitHeight: iconHeight
     component AnimationsInfo: QtObject {
@@ -33,7 +34,7 @@ Item {
         transformOrigin: Item.TopLeft
         ShapePath {
             id: _qt_node1_fill_stroke
-            strokeColor: "transparent"
+            strokeColor: __qt_toplevel.iconColor
             fillColor: __qt_toplevel.iconColor
             fillRule: ShapePath.WindingFill
             PathSvg {
