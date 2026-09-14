@@ -11,6 +11,11 @@ QtObject {
         Top,
         Bottom
     }
+    readonly property var playbackStateMap: ({
+            1: "playing",
+            2: "paused",
+            0: "stopped"
+        })
 
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -48,5 +53,9 @@ QtObject {
             return "";
         }
         return str.toLowerCase();
+    }
+
+    function playbackStateToString(value) {
+        return playbackStateMap[value] ?? "unknown";
     }
 }

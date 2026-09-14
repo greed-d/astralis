@@ -86,6 +86,7 @@ Scope {
 
                 Memory {}
                 Network {}
+                Mpris {}
             }
         }
     }
