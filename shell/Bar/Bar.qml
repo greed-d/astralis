@@ -89,6 +89,10 @@ Scope {
                 id: clockComponent
                 Clock {}
             }
+            Component {
+                id: pipewireComponent
+                Pipewire {}
+            }
 
             readonly property var widgetComponents: {
                 "workspaces": workspacesComponent,
@@ -98,6 +102,7 @@ Scope {
                 "network": networkComponent,
                 "mpris": mprisComponent,
                 "clock": clockComponent,
+                "pipewire": pipewireComponent,
                 "separator": separatorComponent
             }
 
