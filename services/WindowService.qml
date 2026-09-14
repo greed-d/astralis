@@ -10,6 +10,7 @@ Singleton {
     readonly property int windowCount: toplevels.values.length
 
     function windowList() {
+        console.log(toplevels.values);
         return toplevels.values;
     }
 
