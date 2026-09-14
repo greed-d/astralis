@@ -9,20 +9,17 @@ RowLayout {
 
     property string textColor: Colors.text ?? "#cdd6f4"
 
-    Text {
+    TextBox {
         Layout.alignment: Qt.AlignVCenter
         text: TimeService.time
-        color: root.textColor
     }
-    Text {
+    TextBox {
         text: "  |  "
         Layout.alignment: Qt.AlignVCenter
-        color: root.textColor
     }
-    Text {
+    TextBox {
         Layout.alignment: Qt.AlignVCenter
         text: TimeService.date
-        color: root.textColor
     }
 }
 // Text {

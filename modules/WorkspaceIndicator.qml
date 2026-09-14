@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import QtQuick.Layouts
 import qs.services.compositor
+import qs.modules.common
 
 Item {
     id: root
@@ -34,12 +35,9 @@ Item {
                 radius: 15
                 color: modelData.focused ? "#89b4fa" : (modelData.active ? "#ffffff" : "#313244")
 
-                Text {
+                TextBox {
                     anchors.centerIn: parent
                     text: modelData.name ?? ""
-                    font.pixelSize: 12
-                    font.bold: modelData.focused ?? false
-                    color: modelData.focused ? "#1e1e2e" : "#cdd6f4"
                 }
                 MouseArea {
                     anchors.fill: parent

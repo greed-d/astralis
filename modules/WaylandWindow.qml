@@ -9,6 +9,7 @@ import qs.modules.common
 RowLayout {
     id: root
     spacing: 8
+
     property string textColor: Colors.text ?? "#cdd6f4"
     property string rawAppId: WindowService.active?.appId ?? ""
     readonly property DesktopEntry appEntry: DesktopEntries.heuristicLookup(root.rawAppId)
@@ -44,8 +45,8 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
     }
 
-    Text {
+    TextBox {
+
         text: WindowService.active?.appId ?? ""
-        color: root.textColor
     }
 }

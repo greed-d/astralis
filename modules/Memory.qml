@@ -15,9 +15,8 @@ RowLayout {
     MemoryIcon {
         iconSize: 24
     }
-    Text {
+    TextBox {
         Layout.alignment: Qt.AlignVCenter
         text: (MemoryService.ramUsed ?? 0).toFixed(1)
-        color: root.textColor
     }
 }

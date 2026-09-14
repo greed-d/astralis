@@ -21,7 +21,7 @@ Row {
         iconHeight: root.iconSize
         iconColor: root.iconColor
     }
-    Text {
+    TextBox {
         text: Math.round(root.cpuUsage) + "%"
         color: root.textColor
         anchors.verticalCenter: parent.verticalCenter

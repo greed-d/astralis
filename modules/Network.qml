@@ -55,11 +55,9 @@ RowLayout {
     }
 
     // Consolidated Text Element
-    Text {
+    TextBox {
         visible: root.isDisconnected || (root.isWifi && NetworkService.ssid !== "") || root.isLan
         text: root.isDisconnected ? "Disconnected" : root.isWifi ? `${NetworkService.ssid} ( ${root.signal}% )` : "Connected"
         color: root.isDisconnected ? root.iconColor : root.textColor
-        font.family: root.fontFamily
-        font.pixelSize: root.fontSize
     }
 }

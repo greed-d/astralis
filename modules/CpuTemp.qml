@@ -25,11 +25,10 @@ RowLayout {
     //     iconSize: root.iconSize
     //     Layout.alignment: Qt.AlignVCenter
     // }
-    Text {
+    TextBox {
         visible: root.cpuTempVisible
 
         Layout.alignment: Qt.AlignVCenter
         text: `${CpuService.cpuTemperature.toFixed(1)}°C`
-        color: root.textColor
     }
 }
