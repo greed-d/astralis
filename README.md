@@ -18,10 +18,10 @@ Modules not yet implemented, in suggested build order.
 - [x] Workspaces / window manager module
 - [x] CPU and memory usage module
 - [ ] System tray
-- [ ] Volume / audio module
+- [x] Volume / audio module
 - [ ] Battery module
 - [ ] Notifications module
-- [ ] Media player controls
+- [x] Media player controls
 
 ## Requirements
 
