@@ -1,22 +1,39 @@
 import QtQuick
 import Quickshell
 import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 import qs.services
 import qs.modules.common
 
 RowLayout {
     id: root
-    readonly property var fontConfig: Config.theme.font
-    property string fontFamily: fontConfig.family
-    property string fontSize: fontConfig.family
 
-    Image {
-        source: MprisService.artUrl ? MprisService.artUrl : "None"
+    Item {
+        Layout.alignment: Qt.AlignVCenter
         Layout.preferredHeight: 20
         Layout.preferredWidth: 20
-        fillMode: Image.PreserveAspectCrop
-        visible: MprisService.artUrl !== ""
-        layer.enabled: true
+        visible: MprisService.artUrl && MprisService.artUrl !== ""
+
+        Image {
+            id: imgSource
+            anchors.fill: parent
+            source: MprisService.artUrl ? MprisService.artUrl : ""
+            fillMode: Image.PreserveAspectCrop
+            visible: false
+        }
+
+        Rectangle {
+            id: maskSource
+            anchors.fill: parent
+            radius: width / 2 // Or e.g. 4 for subtle rounded corners
+            visible: false
+        }
+
+        OpacityMask {
+            anchors.fill: parent
+            source: imgSource
+            maskSource: maskSource
+        }
     }
 
     TextBox {
