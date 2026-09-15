@@ -21,6 +21,12 @@ Button {
         id: wallpaperDaemon
         command: ["awww-daemon"]
     }
+    Timer {
+        running: false
+        repeat: false
+        triggeredOnStart: true
+        onTriggered: wallpaperDaemon
+    }
 
     onClicked: {
         const path = root.wallpapers[Math.floor(Math.random() * root.wallpapers.length)];
