@@ -36,6 +36,9 @@ Item {
         }
 
         TextBox {
+            Layout.preferredWidth: -1
+            Layout.maximumWidth: 190
+            elide: Text.ElideRight           // truncate visually instead of overflowing
             text: MprisService.player ? (MprisService.player.trackTitle?.length > 64 ? MprisService.player.trackTitle.slice(0, 64) + "..." : MprisService.player.trackTitle) : "No player"
             Layout.alignment: Qt.AlignVCenter
             color: MprisService.isPlaying ? Colors.text : Colors.textDisabled
