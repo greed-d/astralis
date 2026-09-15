@@ -97,6 +97,10 @@ Scope {
                 id: pipewireComponent
                 Pipewire {}
             }
+            Component {
+                id: wallpaperButton
+                WallpaperButton {}
+            }
 
             readonly property var widgetComponents: {
                 "umbriel_workspaces": umbrielWorkspacesComponent,
@@ -108,6 +112,7 @@ Scope {
                 "mpris": mprisComponent,
                 "clock": clockComponent,
                 "pipewire": pipewireComponent,
+                "wallpaper_button": wallpaperButton,
                 "separator": separatorComponent
             }
 
