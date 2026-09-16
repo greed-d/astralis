@@ -1,10 +1,12 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import qs.modules.common
 import qs.modules.bar
 import qs.modules
 import qs.widgets
+import qs.components.popup
 
 Scope {
     id: root
@@ -146,6 +148,14 @@ Scope {
                     right: parent.right
                     rightMargin: 15
                 }
+            }
+
+            WallpaperPickerPopup {
+                id: wallpaperPopup
+                anchor.window: bar
+                anchor.rect.x: bar.width / 2 - width / 2
+                anchor.rect.y: bar.height
+                directory: "/home/deekshit.bhattarai/Pictures/walls-catppuccin-mocha/wallpapers.txt"
             }
         }
     }

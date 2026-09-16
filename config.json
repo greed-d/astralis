@@ -45,7 +45,8 @@
         "mpris",
         "ram",
         "pipewire",
-        "network"
+        "network",
+        "wallpaper_button"
       ],
       "separator": false,
       "spacing": 12
