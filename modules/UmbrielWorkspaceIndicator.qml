@@ -34,22 +34,18 @@ RowLayout {
             required property var modelData
             required property int index
 
-            readonly property bool isFocused: modelData.focused === true
-            readonly property bool isActive: modelData.active === true
+            readonly property bool isFocused: modelData.active === true
+            readonly property bool isOccupied: !wsButton.isFocused && modelData.occupied === true
 
-            // Width setup:
-            // - Currently focused workspace gets maximum width (36px)
-            // - Active workspace on non-focused output gets medium width (28px)
-            // - Inactive occupied workspace gets default extended width (22px)
             Layout.preferredWidth: {
                 if (wsButton.isFocused)
-                    return 36;
-                if (wsButton.isActive)
+                    return 42;
+                if (wsButton.isOccupied)
                     return 28;
                 return 22;
             }
-            Layout.preferredHeight: 20
-            radius: 10
+            Layout.preferredHeight: 30
+            radius: 18
 
             color: {
                 if (wsButton.isFocused)
@@ -62,9 +58,9 @@ RowLayout {
             Text {
                 anchors.centerIn: parent
                 text: wsButton.modelData.name ?? wsButton.modelData.index
-                color: (wsButton.isFocused || wsButton.isActive) ? Colors.background0 : Colors.text
+                color: (wsButton.isFocused || wsButton.isOccupied) ? Colors.background0 : Colors.text
                 font.pixelSize: 11
-                font.bold: wsButton.isFocused || wsButton.isActive
+                font.bold: wsButton.isFocused || wsButton.isOccupied
             }
 
             Behavior on Layout.preferredWidth {
@@ -80,32 +76,27 @@ RowLayout {
                 }
             }
 
-            MouseArea {
+            WrapperMouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: UmbrielWorkspaceIndicatorService.switchTo(wsButton.modelData.id ?? wsButton.modelData.index)
-            }
-        }
-    }
+                onClicked: UmbrielWorkspaceIndicatorService.switchTo(wsButton.modelData.index ?? wsButton.modelData.id)
 
-    WrapperMouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
+                onWheel: wheel => {
+                    if (root.workspaceList.length === 0)
+                        return;
 
-        onWheel: wheel => {
-            if (root.workspaceList.length === 0)
-                return;
+                    const currentIdx = root.workspaceList.findIndex(w => w.active === true);
+                    if (currentIdx === -1)
+                        return;
 
-            const currentIdx = root.workspaceList.findIndex(w => w.focused || w.active);
-            if (currentIdx === -1)
-                return;
-
-            if (wheel.angleDelta.y < 0) {
-                const nextWs = root.workspaceList[Math.min(currentIdx + 1, root.workspaceList.length - 1)];
-                UmbrielWorkspaceIndicatorService.switchTo(nextWs.id ?? nextWs.index);
-            } else if (wheel.angleDelta.y > 0) {
-                const prevWs = root.workspaceList[Math.max(currentIdx - 1, 0)];
-                UmbrielWorkspaceIndicatorService.switchTo(prevWs.id ?? prevWs.index);
+                    if (wheel.angleDelta.y < 0) {
+                        const nextWs = root.workspaceList[Math.min(currentIdx + 1, root.workspaceList.length - 1)];
+                        UmbrielWorkspaceIndicatorService.switchTo(nextWs.index ?? nextWs.id);
+                    } else if (wheel.angleDelta.y > 0) {
+                        const prevWs = root.workspaceList[Math.max(currentIdx - 1, 0)];
+                        UmbrielWorkspaceIndicatorService.switchTo(prevWs.index ?? prevWs.id);
+                    }
+                }
             }
         }
     }
