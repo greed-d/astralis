@@ -39,14 +39,17 @@ RowLayout {
     // ---------------------
 
     IconImage {
-        source: Quickshell.iconPath(activeIconPath)
-        Layout.preferredWidth: 20
-        Layout.preferredHeight: 20
+        // visible: root.rawAppId !== "" || null
+        source: root.rawAppId !== "" ? Quickshell.iconPath(activeIconPath) : Quickshell.iconPath("user-desktop")
+        implicitWidth: 20
+        implicitHeight: 20
+        // Layout.preferredWidth: 20
+        // Layout.preferredHeight: 20
         Layout.alignment: Qt.AlignVCenter
     }
 
     TextBox {
-
-        text: WindowService.active?.appId ?? ""
+        // visible: root.rawAppId !== "" || null
+        text: root.rawAppId !== "" || null ? root.rawAppId : "Desktop"
     }
 }
