@@ -25,31 +25,31 @@ Item {
 
     readonly property var sources: Pipewire.nodes.values.filter(node => node.isSource && !node.isVirtual)
 
-    function logAll() {
-        console.log("============== PIPEWIRE LOGS ==========");
-        console.log("[Pipewire] defaultSink:", defaultSink);
-        console.log("[Pipewire] defaultSource:", defaultSource);
-        console.log("[Pipewire] volume:", volume);
-        console.log("[Pipewire] ismuted:", muted);
-        console.log("[Pipewire] sinkName:", sinkName);
-        console.log("[Pipewire] inputVolume:", inputVolume);
-        console.log("[Pipewire] inputMuted:", inputMuted);
-        console.log("[Pipewire] sourceName:", sourceName);
-        console.log("[Pipewire] sinks:", sinks.map(n => n.description));
-        console.log("[Pipewire] sources:", sources.map(n => n.description));
-        console.log("=======================================");
-    }
+    // function logAll() {
+    //     console.log("============== PIPEWIRE LOGS ==========");
+    //     console.log("[Pipewire] defaultSink:", defaultSink);
+    //     console.log("[Pipewire] defaultSource:", defaultSource);
+    //     console.log("[Pipewire] volume:", volume);
+    //     console.log("[Pipewire] ismuted:", muted);
+    //     console.log("[Pipewire] sinkName:", sinkName);
+    //     console.log("[Pipewire] inputVolume:", inputVolume);
+    //     console.log("[Pipewire] inputMuted:", inputMuted);
+    //     console.log("[Pipewire] sourceName:", sourceName);
+    //     console.log("[Pipewire] sinks:", sinks.map(n => n.description));
+    //     console.log("[Pipewire] sources:", sources.map(n => n.description));
+    //     console.log("=======================================");
+    // }
 
-    Component.onCompleted: logAll()
+    // Component.onCompleted: logAll()
 
-    onVolumeChanged: console.log("START LOG CHANGE PIPEWIRE ===============[Pipewire] volume changed:===============", volume)
-    onMutedChanged: console.log("[Pipewire] muted changed:", muted)
-    onSinkNameChanged: console.log("[Pipewire] sinkName changed:", sinkName)
-    onInputVolumeChanged: console.log("[Pipewire] inputVolume changed:", inputVolume)
-    onInputMutedChanged: console.log("[Pipewire] inputMuted changed:", inputMuted)
-    onSourceNameChanged: console.log("[Pipewire] sourceName changed:", sourceName)
-    onSinksChanged: console.log("[Pipewire] sinks changed:", sinks.map(n => n.description))
-    onSourcesChanged: console.log("[Pipewire] sources changed:", sources.map(n => n.description))
+    // onVolumeChanged: console.log("START LOG CHANGE PIPEWIRE ===============[Pipewire] volume changed:===============", volume)
+    // onMutedChanged: console.log("[Pipewire] muted changed:", muted)
+    // onSinkNameChanged: console.log("[Pipewire] sinkName changed:", sinkName)
+    // onInputVolumeChanged: console.log("[Pipewire] inputVolume changed:", inputVolume)
+    // onInputMutedChanged: console.log("[Pipewire] inputMuted changed:", inputMuted)
+    // onSourceNameChanged: console.log("[Pipewire] sourceName changed:", sourceName)
+    // onSinksChanged: console.log("[Pipewire] sinks changed:", sinks.map(n => n.description))
+    // onSourcesChanged: console.log("[Pipewire] sources changed:", sources.map(n => n.description))
 
     function setVolume(val) {
         if (defaultSink?.audio) {

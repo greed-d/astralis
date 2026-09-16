@@ -26,20 +26,20 @@ Singleton {
     readonly property real volume: player?.volume ?? 0.0
     readonly property real length: player?.length ?? 0.0
     readonly property real position: player?.position ?? 0.0
-    Component.onCompleted: {
-        console.log("============== MPRIS LOGS ==========");
-        console.log("[MprisWidget] player:", root.player);
-        console.log("[MprisWidget] trackTitle:", root.title);
-        console.log("[MprisWidget] trackArtist:", root.artist);
-        console.log("[MprisWidget] trackUrl:", root.artUrl);
-        console.log("[MprisWidget] canGoNext:", root.canGoNext);
-        console.log("[MprisWidget] length:", root.length / 60);
-        console.log("[MprisWidget] position:", root.position / 60);
-        console.log("[MprisWidget] state:", root.state);
-        console.log("[MprisWidget] volume:", root.volume);
-        console.log("[MprisWidget] state:", Types.playbackStateToString(root.state));
-        console.log("=======================================");
-    }
+    // Component.onCompleted: {
+    //     console.log("============== MPRIS LOGS ==========");
+    //     console.log("[MprisWidget] player:", root.player);
+    //     console.log("[MprisWidget] trackTitle:", root.title);
+    //     console.log("[MprisWidget] trackArtist:", root.artist);
+    //     console.log("[MprisWidget] trackUrl:", root.artUrl);
+    //     console.log("[MprisWidget] canGoNext:", root.canGoNext);
+    //     console.log("[MprisWidget] length:", root.length / 60);
+    //     console.log("[MprisWidget] position:", root.position / 60);
+    //     console.log("[MprisWidget] state:", root.state);
+    //     console.log("[MprisWidget] volume:", root.volume);
+    //     console.log("[MprisWidget] state:", Types.playbackStateToString(root.state));
+    //     console.log("=======================================");
+    // }
 
     Connections {
         target: MprisService
