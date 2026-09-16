@@ -21,7 +21,7 @@ Singleton {
     readonly property bool canGoPrevious: player?.canGoPrevious ?? false
     readonly property bool canSeek: player?.canSeek ?? false
 
-    readonly property int state: player?.playbackState
+    readonly property int state: player?.playbackState ?? 0
 
     readonly property real volume: player?.volume ?? 0.0
     readonly property real length: player?.length ?? 0.0
@@ -41,12 +41,12 @@ Singleton {
     //     console.log("=======================================");
     // }
 
-    Connections {
-        target: MprisService
-        function onPlayerChanged() {
-            console.log("[MprisWidget] player changed:", root.player);
-        }
-    }
+    // Connections {
+    //     target: MprisService
+    //     function onPlayerChanged() {
+    //         console.log("[MprisWidget] player changed:", root.player);
+    //     }
+    // }
 
     function togglePlaybackState() {
         if (player && root.state === 1) {
