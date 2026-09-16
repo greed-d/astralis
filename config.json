@@ -43,6 +43,7 @@
     "right": {
       "widgets": [
         "mpris",
+        "wallpaper_button",
         "ram",
         "pipewire",
         "network"
