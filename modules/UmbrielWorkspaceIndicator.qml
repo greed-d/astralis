@@ -8,20 +8,21 @@ import qs.modules.common
 RowLayout {
     id: root
 
-    // Pass target screen (can be screen object or string "HDMI-A-1")
     property var targetScreen: null
 
-    // Extract output name string safely
+    property bool onlyActive: false
+
     readonly property string currentOutput: {
         if (!targetScreen)
             return "";
         return targetScreen.name !== undefined ? targetScreen.name : String(targetScreen);
     }
 
-    // Filter workspaces for this specific output that are active or occupied
     readonly property var workspaceList: {
         const rawList = UmbrielWorkspaceIndicatorService.forOutput(root.currentOutput);
-        return rawList.filter(w => w.active === true || w.occupied === true);
+        if (root.onlyActive)
+            return rawList.filter(w => w.active === true || w.occupied === true);
+        return rawList;
     }
 
     spacing: 6
@@ -50,7 +51,7 @@ RowLayout {
             color: {
                 if (wsButton.isFocused)
                     return Colors.primary;
-                if (wsButton.isActive)
+                if (wsButton.isOccupied)
                     return Colors.secondary;
                 return Colors.surface1;
             }

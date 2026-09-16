@@ -4,6 +4,8 @@ import Quickshell
 import Quickshell.Io
 import qs.modules.common
 import qs.modules.bar
+import qs.modules.wallpaper
+import qs.modules.cpu
 import qs.modules
 import qs.widgets
 import qs.components.popup
@@ -49,12 +51,14 @@ Scope {
                 id: umbrielWorkspacesComponent
                 WorkspaceIndicator {
                     screen: bar.screen
-                    onlyActive: true
+                    onlyActive: false
                 }
             }
             Component {
                 id: workspacesComponent
-                UmbrielWorkspaceIndicator {}
+                UmbrielWorkspaceIndicator {
+                    onlyActive: true
+                }
             }
             Component {
                 id: focusedWindowComponent
