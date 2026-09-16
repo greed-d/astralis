@@ -46,6 +46,7 @@
         "ram",
         "pipewire",
         "network",
+        "battery",
         "wallpaper_button"
       ],
       "separator": false,
@@ -146,7 +147,7 @@
     }
   },
   "battery": {
-    "scale": 1.5,
+    "scale": 1,
     "low": 20,
     "critical": 10,
     "suspend": 5,

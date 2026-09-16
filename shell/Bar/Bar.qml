@@ -107,6 +107,10 @@ Scope {
                 id: wallpaperButton
                 WallpaperButton {}
             }
+            Component {
+                id: batteryComponent
+                Battery {}
+            }
 
             readonly property var widgetComponents: {
                 "umbriel_workspaces": umbrielWorkspacesComponent,
@@ -119,6 +123,7 @@ Scope {
                 "clock": clockComponent,
                 "pipewire": pipewireComponent,
                 "wallpaper_button": wallpaperButton,
+                "battery": batteryComponent,
                 "separator": separatorComponent
             }
 
