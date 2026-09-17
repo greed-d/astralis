@@ -35,12 +35,15 @@ RowLayout {
             required property var modelData
             required property int index
 
-            readonly property bool isFocused: modelData.active === true
-            readonly property bool isOccupied: !wsButton.isFocused && modelData.occupied === true
+            readonly property bool isFocused: modelData.focused === true
+            readonly property bool isActive: !wsButton.isFocused && modelData.active === true
+            readonly property bool isOccupied: !wsButton.isFocused && !wsButton.isActive && modelData.occupied === true
 
             Layout.preferredWidth: {
                 if (wsButton.isFocused)
                     return 42;
+                if (wsButton.isActive)
+                    return 36;
                 if (wsButton.isOccupied)
                     return 28;
                 return 22;
@@ -51,17 +54,19 @@ RowLayout {
             color: {
                 if (wsButton.isFocused)
                     return Colors.primary;
-                if (wsButton.isOccupied)
+                if (wsButton.isActive)
                     return Colors.secondary;
+                if (wsButton.isOccupied)
+                    return Colors.surface2 ?? Colors.secondary;
                 return Colors.surface1;
             }
 
             Text {
                 anchors.centerIn: parent
                 text: wsButton.modelData.name ?? wsButton.modelData.index
-                color: (wsButton.isFocused || wsButton.isOccupied) ? Colors.background0 : Colors.text
+                color: (wsButton.isFocused || wsButton.isActive) ? Colors.background0 : Colors.text
                 font.pixelSize: 11
-                font.bold: wsButton.isFocused || wsButton.isOccupied
+                font.bold: wsButton.isFocused || wsButton.isActive
             }
 
             Behavior on Layout.preferredWidth {
@@ -80,7 +85,7 @@ RowLayout {
             WrapperMouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: UmbrielWorkspaceIndicatorService.switchTo(wsButton.modelData.index ?? wsButton.modelData.id)
+                onClicked: UmbrielWorkspaceIndicatorService.switchTo(wsButton.modelData.index ?? wsButton.modelData.id, wsButton.modelData.output)
 
                 onWheel: wheel => {
                     if (root.workspaceList.length === 0)
@@ -92,10 +97,12 @@ RowLayout {
 
                     if (wheel.angleDelta.y < 0) {
                         const nextWs = root.workspaceList[Math.min(currentIdx + 1, root.workspaceList.length - 1)];
-                        UmbrielWorkspaceIndicatorService.switchTo(nextWs.index ?? nextWs.id);
+                        console.log("WS go uppp", nextWs.index);
+                        UmbrielWorkspaceIndicatorService.switchTo(nextWs.index ?? nextWs.id, wsButton.modelData.output);
                     } else if (wheel.angleDelta.y > 0) {
                         const prevWs = root.workspaceList[Math.max(currentIdx - 1, 0)];
-                        UmbrielWorkspaceIndicatorService.switchTo(prevWs.index ?? prevWs.id);
+                        console.log("WS go uppp", prevWs.index);
+                        UmbrielWorkspaceIndicatorService.switchTo(prevWs.index ?? prevWs.id, wsButton.modelData.output);
                     }
                 }
             }

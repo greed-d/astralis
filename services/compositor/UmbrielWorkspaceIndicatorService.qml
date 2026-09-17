@@ -12,10 +12,10 @@ Singleton {
     function forOutput(outputName) {
         return outputName ? workspaces.filter(w => w.output === outputName) : workspaces;
     }
-    function switchTo(index) {
+    function switchTo(index, currentOutput) {
         const payload = JSON.stringify({
             cmd: "msg",
-            arg: `workspace-switch:${index}`
+            arg: `workspace-switch:${index}/${currentOutput}`
         }) + "\n";
         umbrielSocket.write(payload);
         umbrielSocket.flush();
