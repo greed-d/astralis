@@ -24,6 +24,8 @@ Singleton {
     readonly property bool healthSupported: battery.healthSupported
     readonly property real healthPercentage: battery.healthPercentage
     readonly property bool isLaptopBattery: battery.isLaptopBattery
+    readonly property bool charging: UPowerDeviceState.Charging
+    readonly property bool discharging: UPowerDeviceState.Discharging
 
     // function logAll() {
     //     console.log("energyCapacity:", energyCapacity);
@@ -43,6 +45,8 @@ Singleton {
     //     console.log("healthSupported:", healthSupported);
     //     console.log("healthPercentage:", healthPercentage);
     //     console.log("isLaptopBattery:", isLaptopBattery);
+    //     console.log("charging:", charging);
+    //     console.log("discharging:", discharging);
     // }
 
     // Component.onCompleted: logAll()

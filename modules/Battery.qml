@@ -27,13 +27,22 @@ RowLayout {
     }
 
     property bool suspendWarningSent: false
-
-    IconImage {
-        source: Quickshell.iconPath(Upower.iconName)
+    BatteryIcon {
         implicitHeight: root.iconSize
         implicitWidth: root.iconSize
         Layout.alignment: Qt.AlignVCenter
+        percent: root.batteryPercent
+        charging: Upower.state === Upower.charging
+        alert: root.batteryPercent < 10
+        color: root.textColor
     }
+
+    // IconImage {
+    //     source: Quickshell.iconPath(Upower.iconName)
+    //     implicitHeight: root.iconSize
+    //     implicitWidth: root.iconSize
+    //     Layout.alignment: Qt.AlignVCenter
+    // }
 
     TextBox {
         text: `${Math.round(root.batteryPercent)}%`
@@ -57,7 +66,7 @@ RowLayout {
     }
 
     onBatteryPercentChanged: {
-        const discharging = Upower.state === UPowerDeviceState.Discharging;
+        const discharging = Upower.state === Upower.discharging;
 
         if (discharging && batteryPercent <= suspendThreshold && !suspendWarningSent) {
             suspendWarningSent = true;
