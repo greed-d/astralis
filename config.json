@@ -28,7 +28,8 @@
       "widgets": [
         "workspaces",
         "focusedWindow",
-        "cpu"
+        "cpu",
+        "systray"
       ],
       "separator": false,
       "spacing": 12
