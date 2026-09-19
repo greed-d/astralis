@@ -9,6 +9,7 @@ import qs.modules.cpu
 import qs.modules
 import qs.widgets
 import qs.components.popup
+import qs.components.popup.notifications
 
 Scope {
     id: root
@@ -115,6 +116,10 @@ Scope {
                 id: systrayComponent
                 SysTray {}
             }
+            Component {
+                id: notificationComponent
+                Notifications {}
+            }
 
             readonly property var widgetComponents: {
                 "umbriel_workspaces": umbrielWorkspacesComponent,
@@ -129,6 +134,7 @@ Scope {
                 "wallpaper_button": wallpaperButton,
                 "battery": batteryComponent,
                 "systray": systrayComponent,
+                "notification": notificationComponent,
                 "separator": separatorComponent
             }
 
@@ -171,6 +177,9 @@ Scope {
                 anchor.rect.y: bar.height
                 directory: "/home/deekshit.bhattarai/Pictures/walls-catppuccin-mocha/wallpapers.txt"
             }
+
+            NotificationPopup {}
+            NotificationHistoryPopup {}
         }
     }
 }

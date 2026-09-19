@@ -12,6 +12,7 @@ Singleton {
     readonly property alias memory: adapter.memory
     readonly property alias layout: adapter.layout
     readonly property alias battery: adapter.battery
+    readonly property alias notifications: adapter.notifications
 
     FileView {
         path: Quickshell.shellPath("config.json")
@@ -144,6 +145,9 @@ Singleton {
                     property int size: 24
                     property string color: "#777777"
                 }
+            }
+            property JsonObject notifications: JsonObject {
+                property int timeout: 5
             }
         }
     }

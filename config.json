@@ -46,8 +46,9 @@
         "mpris",
         "ram",
         "pipewire",
-        "network",
         "battery",
+        "network",
+        "notification",
         "wallpaper_button"
       ],
       "separator": false,
@@ -57,6 +58,9 @@
   "bar": {
     "position": "top",
     "size": 40
+  },
+  "notifications": {
+    "timeout": 5
   },
   "focusedWindow": {
     "icon": {
