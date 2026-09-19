@@ -31,7 +31,7 @@ Singleton {
         onFileChanged: {
             reload();
             root.wallpapers = root.parseManifest(text());
-            console.log(root.parseManifest());
+            //console.log(root.parseManifest());
         }
     }
 }

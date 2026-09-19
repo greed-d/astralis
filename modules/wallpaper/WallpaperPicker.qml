@@ -15,7 +15,7 @@ Item {
 
     function apply() {
         if (selectedWallpaper.length === 0) {
-            console.log("No wallpaper found");
+            //console.log("No wallpaper found");
             return;
         }
         applyProcess.command = ["awww", "img", selectedWallpaper];

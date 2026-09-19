@@ -97,11 +97,9 @@ RowLayout {
 
                     if (wheel.angleDelta.y < 0) {
                         const nextWs = root.workspaceList[Math.min(currentIdx + 1, root.workspaceList.length - 1)];
-                        console.log("WS go uppp", nextWs.index);
                         UmbrielWorkspaceIndicatorService.switchTo(nextWs.index ?? nextWs.id, wsButton.modelData.output);
                     } else if (wheel.angleDelta.y > 0) {
                         const prevWs = root.workspaceList[Math.max(currentIdx - 1, 0)];
-                        console.log("WS go uppp", prevWs.index);
                         UmbrielWorkspaceIndicatorService.switchTo(prevWs.index ?? prevWs.id, wsButton.modelData.output);
                     }
                 }

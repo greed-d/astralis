@@ -61,13 +61,11 @@ PopupWindow {
                         source: "file://" + cachePath
 
                         onStatusChanged: {
-                            console.log("Stuff0");
                             if (status === Image.Error && !loadedFromOriginal) {
                                 loadedFromOriginal = true;
                                 source = "file://" + modelData.path;
                             } else if (status === Image.Ready && loadedFromOriginal) {
                                 grabToImage(function (result) {
-                                    console.log("Stuff");
                                     result.saveToFile(cachePath);
                                 });
                             }
