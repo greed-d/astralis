@@ -18,9 +18,9 @@ Modules not yet implemented, in suggested build order.
 - [x] Clock and date module
 - [x] Workspaces / window manager module
 - [x] CPU and memory usage module
-- [ ] System tray
+- [x] System tray
 - [x] Volume / audio module
-- [ ] Battery module
+- [x] Battery module
 - [ ] Notifications module
 - [x] Media player controls
 
@@ -50,9 +50,9 @@ Build out the basic bar functionality with individual modules, each working inde
 
 - [x] Clock and date module
 - [x] Workspace / window manager indicator
-- [ ] System tray
+- [x] System tray
 - [x] Volume module
-- [ ] Battery module
+- [x] Battery module
 - [x] CPU and memory usage module
 - [ ] Notifications module
 - [x] Media player controls
