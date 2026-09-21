@@ -32,9 +32,9 @@ RowLayout {
         implicitWidth: root.iconSize
         Layout.alignment: Qt.AlignVCenter
         percent: root.batteryPercent
-        charging: Upower.state === Upower.charging
+        charging: Upower.state === 5
         alert: root.batteryPercent < 10
-        color: root.textColor
+        color: Upower.state === 5 ? Colors.success : Colors.text
     }
 
     // IconImage {
