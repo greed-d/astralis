@@ -16,6 +16,10 @@ Singleton {
         historyOpen = !historyOpen;
     }
 
+    function removeHistoryItem(idx: int): void {
+        historyModel.remove(idx);
+    }
+
     ListModel {
         id: historyModel
     }
@@ -32,6 +36,8 @@ Singleton {
                 summary: n.summary,
                 body: n.body,
                 appName: n.appName,
+                image: n.image || "",
+                appIcon: n.appIcon || "",
                 urgency: n.urgency,
                 time: Qt.formatDateTime(new Date(), "HH:mm")
             });
