@@ -48,7 +48,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: 10
-            color: Colors.background0
+            color: Colors.surface0
             MouseArea {
                 anchors.fill: parent
                 onClicked: notifIpc.hide()
@@ -94,6 +94,9 @@ Item {
                         body: model.body
                         urgency: model.urgency
                         timeText: model.time
+                        image: model.image
+                        appIcon: model.appIcon
+                        onCloseClicked: NotificationService.removeHistoryItem(index)
                     }
                 }
             }

@@ -20,13 +20,13 @@ PanelWindow {
     exclusionMode: ExclusionMode.Ignore
 
     // Component.onCompleted: console.log("initial count:", NotificationService.trackedNotifications.count)
-    Connections {
-        target: NotificationService.trackedNotifications
-        function onCountChanged() {
-            //     console.log("tracked count now:", NotificationService.trackedNotifications.count);
-        }
-        // Component.onCompleted: console.log("timer interval:", interval, "running:", running)
-    }
+    // Connections {
+    //     target: NotificationService.trackedNotifications
+    //     function onCountChanged() {
+    //         //     console.log("tracked count now:", NotificationService.trackedNotifications.count);
+    //     }
+    //     // Component.onCompleted: console.log("timer interval:", interval, "running:", running)
+    // }
 
     ColumnLayout {
         id: column
@@ -46,7 +46,9 @@ PanelWindow {
                 image: modelData.image || ""
                 appIcon: modelData.appIcon || ""
                 urgency: modelData.urgency
+                actions: modelData.actions || []
                 onDismissed: modelData.dismiss()
+                onCloseClicked: modelData.dismiss()
 
                 Timer {
                     running: modelData.urgency !== NotificationUrgency.Critical
