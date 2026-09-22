@@ -3,11 +3,64 @@ pragma Singleton
 import Quickshell
 import Quickshell.Services.Mpris
 import QtQuick
+import QtQml
 import qs.modules.common
 
 Singleton {
     id: root
-    property MprisPlayer player: Mpris.players.values[0] ?? null
+
+    // The actual sticky state — not recomputed from scratch each time
+    property MprisPlayer player: null
+
+    // --- Initial pick on startup / when list first populates ---
+    function pickInitial() {
+        const players = Mpris.players.values;
+        return players.find(p => p.isPlaying)
+            ?? players.find(p => p.canPlay)
+            ?? null;
+    }
+
+    Component.onCompleted: player = pickInitial()
+
+    // --- Watch for players being added/removed ---
+    Connections {
+        target: Mpris.players
+
+        function onValuesChanged() {
+            const players = Mpris.players.values;
+
+            // If our current player got closed/removed, fall back
+            if (root.player && !players.includes(root.player)) {
+                root.player = players.find(p => p.isPlaying)
+                    ?? players.find(p => p.canPlay)
+                    ?? null;
+            }
+
+            // If we have no player yet, try to pick one
+            if (!root.player) {
+                root.player = root.pickInitial();
+            }
+        }
+    }
+
+    // --- Watch each player for becoming active; switch stickily ---
+    Instantiator {
+        model: Mpris.players.values
+        active: true
+
+        delegate: Connections {
+            target: modelData
+
+            function onIsPlayingChanged() {
+                if (modelData.isPlaying) {
+                    // A player started playing -> it becomes the active one
+                    root.player = modelData;
+                }
+                // If it paused, do nothing — keep it as the shown player
+                // until something else starts playing or it's removed.
+            }
+        }
+    }
 
     readonly property string title: player?.trackTitle ?? ""
     readonly property string artist: player?.trackArtist ?? ""
@@ -26,32 +79,14 @@ Singleton {
     readonly property real volume: player?.volume ?? 0.0
     readonly property real length: player?.length ?? 0.0
     readonly property real position: player?.position ?? 0.0
-    // Component.onCompleted: {
-    //     console.log("============== MPRIS LOGS ==========");
-    //     console.log("[MprisWidget] player:", root.player);
-    //     console.log("[MprisWidget] trackTitle:", root.title);
-    //     console.log("[MprisWidget] trackArtist:", root.artist);
-    //     console.log("[MprisWidget] trackUrl:", root.artUrl);
-    //     console.log("[MprisWidget] canGoNext:", root.canGoNext);
-    //     console.log("[MprisWidget] length:", root.length / 60);
-    //     console.log("[MprisWidget] position:", root.position / 60);
-    //     console.log("[MprisWidget] state:", root.state);
-    //     console.log("[MprisWidget] volume:", root.volume);
-    //     console.log("[MprisWidget] state:", Types.playbackStateToString(root.state));
-    //     console.log("=======================================");
-    // }
-
-    // Connections {
-    //     target: MprisService
-    //     function onPlayerChanged() {
-    //         console.log("[MprisWidget] player changed:", root.player);
-    //     }
-    // }
 
     function togglePlaybackState() {
-        if (player && root.state === 1) {
+        if (!player)
+            return;
+
+        if (player.isPlaying) {
             player.pause();
-        } else {
+        } else if (player.canPlay) {
             player.play();
         }
     }
