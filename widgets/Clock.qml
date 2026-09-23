@@ -6,7 +6,7 @@ Rectangle {
     id: root
 
     color: Colors.surface0
-    radius: 10
+    radius: 20
 
     implicitWidth: clock.implicitWidth + 20
     implicitHeight: clock.implicitHeight + 10
