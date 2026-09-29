@@ -27,27 +27,28 @@ Singleton {
     readonly property bool charging: UPowerDeviceState.Charging
     readonly property bool discharging: UPowerDeviceState.Discharging
 
-    // function logAll() {
-    //     console.log("energyCapacity:", energyCapacity);
-    //     console.log("timeToEmpty:", timeToEmpty);
-    //     console.log("ready:", ready);
-    //     console.log("timeToFull:", timeToFull);
-    //     console.log("powerSupply:", powerSupply);
-    //     console.log("isPresent:", isPresent);
-    //     console.log("state:", state);
-    //     console.log("type:", type);
-    //     console.log("iconName:", iconName);
-    //     console.log("model:", model);
-    //     console.log("energy:", energy);
-    //     console.log("changeRate:", changeRate);
-    //     console.log("percentage:", percentage);
-    //     console.log("nativePath:", nativePath);
-    //     console.log("healthSupported:", healthSupported);
-    //     console.log("healthPercentage:", healthPercentage);
-    //     console.log("isLaptopBattery:", isLaptopBattery);
-    //     console.log("charging:", charging);
-    //     console.log("discharging:", discharging);
-    // }
+    function logAll() {
+        console.log("energyCapacity:", energyCapacity);
+        console.log("timeToEmpty:", timeToEmpty);
+        console.log("ready:", ready);
+        console.log("timeToFull:", timeToFull);
+        console.log("powerSupply:", powerSupply);
+        console.log("isPresent:", isPresent);
+        console.log("state:", state);
+        console.log("type:", type);
+        console.log("iconName:", iconName);
+        console.log("model:", model);
+        console.log("energy:", energy);
+        console.log("changeRate:", changeRate);
+        console.log("percentage:", percentage);
+        console.log("nativePath:", nativePath);
+        console.log("healthSupported:", healthSupported);
+        console.log("healthPercentage:", healthPercentage);
+        console.log("isLaptopBattery:", isLaptopBattery);
+        console.log("charging:", charging);
+        console.log("Device state string:", UPowerDeviceState.toString(state));
+        console.log("discharging:", discharging);
+    }
 
-    // Component.onCompleted: logAll()
+    Component.onCompleted: logAll()
 }

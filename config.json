@@ -26,9 +26,10 @@
   "layout": {
     "left": {
       "widgets": [
-        "workspaces",
         "focusedWindow",
+        "separator",
         "cpu",
+        "separator",
         "systray"
       ],
       "separator": false,
@@ -36,7 +37,7 @@
     },
     "center": {
       "widgets": [
-        "clock"
+        "workspaces"
       ],
       "separator": true,
       "spacing": 10
@@ -44,12 +45,15 @@
     "right": {
       "widgets": [
         "mpris",
+        "separator",
         "ram",
+        "separator",
         "pipewire",
-        "battery",
         "network",
+        "separator",
         "notification",
-        "wallpaper_button"
+        "separator",
+        "clock"
       ],
       "separator": false,
       "spacing": 12
@@ -168,7 +172,7 @@
     },
     "date": {
       "enabled": true,
-      "format": "ddd • MM.dd"
+      "format": ""
     },
     "font": {
       "family": "",

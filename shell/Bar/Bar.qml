@@ -21,9 +21,9 @@ Scope {
             id: bar
             required property var modelData
             margins {
-                top: 8
-                left: 8
-                right: 8
+                top: 0
+                left: 0
+                right: 0
             }
             screen: modelData
             implicitHeight: Config.data.bar.size
@@ -37,7 +37,7 @@ Scope {
             }
             Rectangle {
                 anchors.fill: parent
-                radius: 12
+                radius: 0
                 color: Colors.background2
             }
 
@@ -45,7 +45,7 @@ Scope {
                 id: separatorComponent
 
                 TextBox {
-                    text: "  |  "
+                    text: " | "
                 }
             }
             Component {
