@@ -7,6 +7,7 @@ import Quickshell.Services.UPower
 import qs.modules.common
 import qs.modules.icons
 import qs.services
+import qs.components.popup.battery
 
 RowLayout {
     id: root
@@ -32,6 +33,16 @@ RowLayout {
     }
 
     property bool suspendWarningSent: false
+
+    TapHandler {
+        onTapped: batteryPopup.visible = !batteryPopup.visible
+    }
+
+    BatteryPopup {
+        id: batteryPopup
+        anchorItem: root
+    }
+
     BatteryIcon {
         id: batteryIcon
         visible: root.batteryVisible

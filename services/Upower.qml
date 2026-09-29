@@ -5,6 +5,7 @@ import Quickshell.Services.UPower
 
 Singleton {
     id: root
+    // Battery
     property var battery: UPower.displayDevice
 
     readonly property real energyCapacity: battery.energyCapacity
@@ -24,30 +25,54 @@ Singleton {
     readonly property bool healthSupported: battery.healthSupported
     readonly property real healthPercentage: battery.healthPercentage
     readonly property bool isLaptopBattery: battery.isLaptopBattery
-    readonly property bool charging: UPowerDeviceState.Charging
-    readonly property bool discharging: UPowerDeviceState.Discharging
+    readonly property string stateString: UPowerDeviceState.toString(state)
 
-    // function logAll() {
-    //     console.log("energyCapacity:", energyCapacity);
-    //     console.log("timeToEmpty:", timeToEmpty);
-    //     console.log("ready:", ready);
-    //     console.log("timeToFull:", timeToFull);
-    //     console.log("powerSupply:", powerSupply);
-    //     console.log("isPresent:", isPresent);
-    //     console.log("state:", state);
-    //     console.log("type:", type);
-    //     console.log("iconName:", iconName);
-    //     console.log("model:", model);
-    //     console.log("energy:", energy);
-    //     console.log("changeRate:", changeRate);
-    //     console.log("percentage:", percentage);
-    //     console.log("nativePath:", nativePath);
-    //     console.log("healthSupported:", healthSupported);
-    //     console.log("healthPercentage:", healthPercentage);
-    //     console.log("isLaptopBattery:", isLaptopBattery);
-    //     console.log("charging:", charging);
-    //     console.log("discharging:", discharging);
-    // }
+    // PowerProfile
+    property bool hasPerformanceProfile: PowerProfiles.hasPerformanceProfile
+    property string degradationReason: PerformanceDegradationReason.toString(PowerProfiles.degradationReason)
+    property int currentProfile: PowerProfiles.profile
+    property string currentProfileString: PowerProfile.toString(currentProfile)
 
-    // Component.onCompleted: logAll()
+    readonly property var availableProfiles: {
+        const list = [PowerProfile.PowerSaver, PowerProfile.Balanced];
+        if (hasPerformanceProfile)
+            list.push(PowerProfile.Performance);
+        return list;
+    }
+
+    readonly property var availableProfileStrings: availableProfiles.map(p => PowerProfile.toString(p))
+
+    function logAll() {
+        console.log("battery", battery);
+        console.log("energyCapacity:", energyCapacity);
+        console.log("timeToEmpty:", timeToEmpty);
+        console.log("ready:", ready);
+        console.log("timeToFull:", timeToFull);
+        console.log("powerSupply:", powerSupply);
+        console.log("isPresent:", isPresent);
+        console.log("state:", state);
+        console.log("type:", type);
+        console.log("iconName:", iconName);
+        console.log("model:", model);
+        console.log("energy:", energy);
+        console.log("changeRate:", changeRate);
+        console.log("percentage:", percentage);
+        console.log("nativePath:", nativePath);
+        console.log("healthSupported:", healthSupported);
+        console.log("healthPercentage:", healthPercentage);
+        console.log("isLaptopBattery:", isLaptopBattery);
+        console.log("Has Performance profile:", hasPerformanceProfile);
+        console.log("Degradation Reason:", degradationReason);
+        console.log("currentProfileString:", currentProfileString);
+        console.log("Available Profiles:", availableProfileStrings);
+    }
+
+    Component.onCompleted: logAll()
+
+    function setProfile(value) {
+        if (value === PowerProfile.Performance && !hasPerformanceProfile) {
+            return;
+        }
+        PowerProfiles.profile = value;
+    }
 }

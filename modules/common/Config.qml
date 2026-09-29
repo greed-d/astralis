@@ -13,6 +13,7 @@ Singleton {
     readonly property alias layout: adapter.layout
     readonly property alias battery: adapter.battery
     readonly property alias notifications: adapter.notifications
+    readonly property alias bar: adapter.bar
 
     FileView {
         path: Quickshell.shellPath("config.json")
@@ -102,14 +103,16 @@ Singleton {
             property JsonObject bar: JsonObject {
                 property string position: Types.positionToString(Types.Position.Top)
                 property int size: 30
+                property int scale: 1
             }
             property JsonObject battery: JsonObject {
-                property real scale: 1.5
+                property real scale: 1
                 property int low: 20
                 property int critical: 10
                 property int suspend: 5
                 property bool automaticSuspend: true
                 property bool showPercentage: true
+                property bool showWhenCharging: true
                 property string orientation: "horizontal"
             }
             property JsonObject network: JsonObject {

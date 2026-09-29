@@ -4,8 +4,9 @@ import QtQuick.Shapes
 
 Item {
     id: root
-    implicitWidth: 24
-    implicitHeight: 24
+    property real iconSize: 24
+    implicitWidth: root.iconSize
+    implicitHeight: root.iconSize
 
     property real percent: 100   // 0-100
     property bool alert: false
