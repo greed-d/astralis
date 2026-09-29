@@ -88,13 +88,14 @@ PopupWindow {
                         Layout.preferredWidth: 1
                         implicitHeight: 40
 
-                        color: active ? Colors.secondary : (ma.containsMouse ? Colors.surface2 : Colors.surface1)
+                        color: active ? Colors.secondary : (ma.containsMouse ? Colors.overlay0 : Colors.surface1)
                         border.color: active ? Colors.secondary : Colors.surface1
 
                         Text {
                             anchors.centerIn: parent
                             text: PowerProfile.toString(profileCard.modelData)
                             color: active ? Colors.background1 : Colors.text
+                            font.weight: Font.DemiBold
                         }
 
                         MouseArea {
