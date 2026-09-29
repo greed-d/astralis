@@ -10,6 +10,7 @@ Item {
     property real percent: 100   // 0-100
     property bool alert: false
     property bool charging: false
+    property bool discharging: true
     property color color: "#e3e3e3"
 
     readonly property real clampedPercent: Math.max(0, Math.min(100, root.percent))
