@@ -10,6 +10,10 @@ import qs.services
 
 RowLayout {
     id: root
+    readonly property bool hasContent: batteryIcon.visible || batteryText.visible
+
+    visible: hasContent
+
     property int iconSize: Config.battery.scale * 20
     property string iconColor: Config.memory.icon.color
 
@@ -17,6 +21,7 @@ RowLayout {
     readonly property int lowThreshold: Config.battery.low
     readonly property int criticalThreshold: Config.battery.critical
     readonly property int suspendThreshold: Config.battery.suspend
+    property bool batteryVisible: Upower.isLaptopBattery === true || Config.battery.showWhenCharging === true
 
     readonly property string textColor: {
         if (batteryPercent <= criticalThreshold)
@@ -28,6 +33,8 @@ RowLayout {
 
     property bool suspendWarningSent: false
     BatteryIcon {
+        id: batteryIcon
+        visible: root.batteryVisible
         implicitHeight: root.iconSize
         implicitWidth: root.iconSize
         Layout.alignment: Qt.AlignVCenter
@@ -37,14 +44,9 @@ RowLayout {
         color: Upower.state === 5 ? Colors.success : Colors.text
     }
 
-    // IconImage {
-    //     source: Quickshell.iconPath(Upower.iconName)
-    //     implicitHeight: root.iconSize
-    //     implicitWidth: root.iconSize
-    //     Layout.alignment: Qt.AlignVCenter
-    // }
-
     TextBox {
+        id: batteryText
+        visible: root.batteryVisible
         text: `${Math.round(root.batteryPercent)}%`
     }
 

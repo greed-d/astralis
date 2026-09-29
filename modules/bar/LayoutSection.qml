@@ -36,6 +36,7 @@ RowLayout {
         delegate: Loader {
             active: true
             sourceComponent: modelData
+            visible: item ? item.visible : true
         }
     }
 }
