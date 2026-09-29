@@ -34,4 +34,23 @@ Rectangle {
             }
         }
     }
+    Rectangle {
+        id: segment
+        visible: root.indeterminate
+        width: root.width * 0.3
+        height: parent.height
+        radius: root.radius
+        color: root.fillColor
+
+        SequentialAnimation on x {
+            running: root.indeterminate && root.visible
+            loops: Animation.Infinite
+            NumberAnimation {
+                from: -segment.width
+                to: root.width
+                duration: 1200
+                easing.type: Easing.InOutQuad
+            }
+        }
+    }
 }
