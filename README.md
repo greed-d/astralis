@@ -21,7 +21,7 @@ Modules not yet implemented, in suggested build order.
 - [x] System tray
 - [x] Volume / audio module
 - [x] Battery module
-- [ ] Notifications module
+- [x] Notifications module
 - [x] Media player controls
 
 ## Requirements
@@ -54,7 +54,7 @@ Build out the basic bar functionality with individual modules, each working inde
 - [x] Volume module
 - [x] Battery module
 - [x] CPU and memory usage module
-- [ ] Notifications module
+- [x] Notifications module
 - [x] Media player controls
 
 **Goal:** Reach feature parity with a typical status bar before reworking the overall structure.

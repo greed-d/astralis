@@ -5,6 +5,8 @@ import QtQuick.Layouts
 import qs.services
 import qs.modules.common
 import qs.modules.icons
+import qs.components.popup.battery
+import qs.components.popup.mpris
 
 Item {
     id: root
@@ -44,13 +46,19 @@ Item {
         }
     }
 
+    MediaPlayerPopup {
+        id: mediaPlayerPopup
+        anchorItem: root
+    }
     WrapperMouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: mouse => {
             if (mouse.button == Qt.LeftButton) {
-                MprisService.togglePlaybackState();
+                mediaPlayerPopup.visible = !mediaPlayerPopup.visible;
             } else if (mouse.button == Qt.RightButton) {
+                MprisService.togglePlaybackState();
+            } else if (mouse.button === Qt.MiddleButton) {
                 MprisService.next();
             }
         }

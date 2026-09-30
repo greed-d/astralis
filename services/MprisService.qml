@@ -15,9 +15,7 @@ Singleton {
     // --- Initial pick on startup / when list first populates ---
     function pickInitial() {
         const players = Mpris.players.values;
-        return players.find(p => p.isPlaying)
-            ?? players.find(p => p.canPlay)
-            ?? null;
+        return players.find(p => p.isPlaying) ?? players.find(p => p.canPlay) ?? null;
     }
 
     Component.onCompleted: player = pickInitial()
@@ -31,9 +29,7 @@ Singleton {
 
             // If our current player got closed/removed, fall back
             if (root.player && !players.includes(root.player)) {
-                root.player = players.find(p => p.isPlaying)
-                    ?? players.find(p => p.canPlay)
-                    ?? null;
+                root.player = players.find(p => p.isPlaying) ?? players.find(p => p.canPlay) ?? null;
             }
 
             // If we have no player yet, try to pick one
@@ -62,6 +58,20 @@ Singleton {
         }
     }
 
+    function formatTime(sec) {
+        if (!sec || sec < 0)
+            return "0:00";
+        const total = Math.floor(sec);
+        const h = Math.floor(total / 3600);
+        const m = Math.floor((total % 3600) / 60);
+        const s = total % 60;
+        const ss = s.toString().padStart(2, "0");
+        if (h > 0)
+            return `${h}:${m.toString().padStart(2, "0")}:${ss}`;
+        return `${m.toString().padStart(2, "0")}:${ss}`;
+    }
+
+    readonly property string playerName: player?.identity ?? "No player"
     readonly property string title: player?.trackTitle ?? ""
     readonly property string artist: player?.trackArtist ?? ""
     readonly property string album: player?.trackAlbum ?? ""
@@ -80,6 +90,8 @@ Singleton {
     readonly property real length: player?.length ?? 0.0
     readonly property real position: player?.position ?? 0.0
 
+    readonly property string positionText: formatTime(position)
+    readonly property string lengthText: formatTime(length)
     function togglePlaybackState() {
         if (!player)
             return;
@@ -98,5 +110,11 @@ Singleton {
     function previous() {
         if (player && canGoPrevious)
             player.previous();
+    }
+    Timer {
+        interval: 1000
+        repeat: true
+        running: root.isPlaying && root.player !== null
+        onTriggered: root.player.positionChanged()
     }
 }
