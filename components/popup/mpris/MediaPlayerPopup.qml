@@ -83,7 +83,7 @@ PopupWindow {
                         elide: Text.ElideRight           // truncate visually instead of overflowing
                     }
                     TextBox {
-                        text: MprisService.album ? MprisService.album : "No Album"
+                        text: MprisService.artist ? MprisService.artist : "No artist"
                         font.pixelSize: 20
                         font.weight: Font.DemiBold
                         color: Colors.overlay0
