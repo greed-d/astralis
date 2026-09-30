@@ -34,13 +34,20 @@ RowLayout {
 
     property bool suspendWarningSent: false
 
-    TapHandler {
-        onTapped: batteryPopup.visible = !batteryPopup.visible
-    }
-
     BatteryPopup {
         id: batteryPopup
         anchorItem: root
+    }
+
+    WrapperMouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: mouse => {
+            if (mouse.button == Qt.LeftButton) {
+                batteryPopup.visible = !batteryPopup.visible;
+            }
+        }
+        cursorShape: Qt.PointingHandCursor
     }
 
     BatteryIcon {
