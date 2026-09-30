@@ -48,7 +48,6 @@ PopupWindow {
             spacing: 8
 
             RowLayout {
-                spacing: 10
                 BatteryIcon {
                     id: batteryIcon
                     percent: popupBattery.batteryPercent
@@ -65,9 +64,75 @@ PopupWindow {
                     fillBarBackground: Colors.surface0
                 }
                 Text {
-                    text: popupBattery.batteryPercent
+                    text: `${popupBattery.batteryPercent}%`
                     font.pixelSize: 24
                     color: Colors.text
+                    font.weight: Font.Bold
+                }
+                Text {
+                    text: popupBattery.deviceState
+                    font.pixelSize: 18
+                    color: Colors.text
+                    font.weight: Font.DemiBold
+                }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+                uniformCellSizes: true
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: healthCol.implicitHeight + 16     // 8px padding top and bottom
+                    radius: 8
+                    color: Colors.surface0
+
+                    ColumnLayout {
+                        id: healthCol
+                        anchors.centerIn: parent
+                        spacing: 2
+
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            text: "Health"
+                            color: Colors.secondary
+                            font.pixelSize: 12
+                        }
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            text: `${Math.round(Upower.healthPercentage)}%`
+                            color: Colors.text
+                            font.pixelSize: 20
+                            font.weight: Font.DemiBold
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: capacityCol.implicitHeight + 16
+                    radius: 8
+                    color: Colors.surface0
+
+                    ColumnLayout {
+                        id: capacityCol
+                        anchors.centerIn: parent
+                        spacing: 2
+
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            text: "Capacity"
+                            color: Colors.secondary
+                            font.pixelSize: 12
+                        }
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            text: `${Upower.energyCapacity.toFixed(1)} Wh`
+                            color: Colors.text
+                            font.pixelSize: 20
+                            font.weight: Font.DemiBold
+                        }
+                    }
                 }
             }
 
