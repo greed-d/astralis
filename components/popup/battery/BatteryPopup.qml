@@ -167,10 +167,7 @@ PopupWindow {
                             id: ma
                             anchors.fill: parent
                             hoverEnabled: true
-                            onClicked: {
-                                console.log(profileCard.modelData);
-                                Upower.setProfile(profileCard.modelData);
-                            }
+                            onClicked: Upower.setProfile(profileCard.modelData)
                         }
                     }
                 }
