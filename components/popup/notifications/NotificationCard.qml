@@ -12,7 +12,8 @@ Rectangle {
     property url appIcon: ""
     property int urgency: NotificationUrgency.Normal
     property string timeText: ""
-    property var actions: []   // list of NotificationAction — only meaningful for live notifications
+    property var actions: []
+    property var actionRows: []
     signal dismissed
     signal closeClicked
 
@@ -26,6 +27,42 @@ Rectangle {
         width: 1
         color: urgency === NotificationUrgency.Critical ? Colors.error : Colors.primary
     }
+
+    FontMetrics {
+        id: actionFontMetrics
+        font.pixelSize: Config.theme.font.size - 1
+    }
+
+    function computeActionRows() {
+        const maxWidth = card.implicitWidth - 20; // match layout margins
+        const spacing = 6;
+        const hPadding = 20; // horizontal padding inside each button
+
+        let rows = [];
+        let row = [];
+        let rowWidth = 0;
+
+        for (let i = 0; i < card.actions.length; i++) {
+            const action = card.actions[i];
+            const btnWidth = actionFontMetrics.advanceWidth(action.text) + hPadding;
+            const add = row.length > 0 ? btnWidth + spacing : btnWidth;
+
+            if (rowWidth + add > maxWidth && row.length > 0) {
+                rows.push(row);
+                row = [action];
+                rowWidth = btnWidth;
+            } else {
+                row.push(action);
+                rowWidth += add;
+            }
+        }
+        if (row.length > 0)
+            rows.push(row);
+        card.actionRows = rows;
+    }
+
+    onActionsChanged: computeActionRows()
+    Component.onCompleted: computeActionRows()
 
     ColumnLayout {
         id: layout
@@ -65,7 +102,6 @@ Rectangle {
             }
             RowLayout {
                 Layout.alignment: Qt.AlignTop
-
                 TextBox {
                     visible: card.timeText !== ""
                     text: card.timeText
@@ -87,30 +123,50 @@ Rectangle {
             }
         }
 
-        RowLayout {
+        ColumnLayout {
             Layout.fillWidth: true
             spacing: 6
             visible: card.actions.length > 0
-            Layout.alignment: Qt.AlignCenter
 
             Repeater {
-                model: card.actions
-                delegate: Rectangle {
+                model: card.actionRows
+                delegate: RowLayout {
                     required property var modelData
-                    Layout.preferredHeight: 28
-                    Layout.preferredWidth: actionLabel.implicitWidth + 20
-                    radius: 6
-                    color: Colors.background2
-                    TextBox {
-                        id: actionLabel
-                        anchors.centerIn: parent
-                        text: modelData.text
-                        fontSize: Config.theme.font.size - 1
-                        color: Colors.text
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: modelData.invoke()
+                    Layout.fillWidth: true
+                    spacing: 6
+
+                    Repeater {
+                        model: modelData
+                        delegate: Rectangle {
+                            required property var modelData
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 36
+                            radius: 6
+                            color: Colors.surface1
+                            border {
+                                width: 1
+                                color: Colors.surface1
+                            }
+
+                            Rectangle {
+                                anchors.fill: parent
+                                anchors.topMargin: 2
+                                radius: 6
+                                color: "#40000000"
+                                z: -1
+                            }
+
+                            TextBox {
+                                anchors.centerIn: parent
+                                text: modelData.text
+                                fontSize: Config.theme.font.size - 1
+                                color: Colors.text
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: modelData.invoke()
+                            }
+                        }
                     }
                 }
             }
