@@ -9,9 +9,9 @@ RowLayout {
     id: root
 
     property var targetScreen: null
-
     property bool onlyActive: false
 
+    property bool showIcons: true
     readonly property string currentOutput: {
         if (!targetScreen)
             return "";
@@ -32,6 +32,7 @@ RowLayout {
 
         delegate: Rectangle {
             id: wsButton
+
             required property var modelData
             required property int index
 
@@ -39,7 +40,30 @@ RowLayout {
             readonly property bool isActive: !wsButton.isFocused && modelData.active === true
             readonly property bool isOccupied: !wsButton.isFocused && !wsButton.isActive && modelData.occupied === true
 
-            Layout.preferredWidth: {
+            /*
+             * Windows from:
+             *
+             *   {"event":"windows","data":[...]}
+             *
+             * belonging to this workspace.
+             */
+            readonly property var workspaceWindows: {
+                if (!root.showIcons)
+                    return [];
+
+                const workspaceName = String(modelData.id ?? modelData.index);
+
+                return (UmbrielWorkspaceIndicatorService.windows ?? []).filter(w => String(w.workspace) === workspaceName).sort((a, b) => {
+                    if (a.y === b.y) {
+                        return a.x - b.x;
+                    }
+
+                    return a.y - b.y;
+                });
+            }
+
+            Layout.preferredWidth: Math.max(minWidth, contentRow.implicitWidth + 24)
+            readonly property int minWidth: {
                 if (wsButton.isFocused)
                     return 42;
                 if (wsButton.isActive)
@@ -48,25 +72,87 @@ RowLayout {
                     return 28;
                 return 22;
             }
-            Layout.preferredHeight: 30
-            radius: 18
 
-            color: {
+            Layout.preferredHeight: 30
+
+            radius: 18
+            color: "transparent"
+
+            border.color: {
                 if (wsButton.isFocused)
-                    return Colors.primary;
+                    return Colors.textDisabled;
+
                 if (wsButton.isActive)
                     return Colors.secondary;
+
                 if (wsButton.isOccupied)
                     return Colors.surface2 ?? Colors.secondary;
+
                 return Colors.surface1;
             }
 
-            Text {
+            border.width: {
+                if (wsButton.isFocused || wsButton.isActive)
+                    return 2;
+
+                return 1;
+            }
+            RowLayout {
+                id: contentRow
                 anchors.centerIn: parent
-                text: wsButton.modelData.name ?? wsButton.modelData.index
-                color: (wsButton.isFocused || wsButton.isActive) ? Colors.background0 : Colors.text
-                font.pixelSize: 11
-                font.bold: wsButton.isFocused || wsButton.isActive
+                spacing: 12
+                z: 1
+
+                Text {
+                    text: wsButton.modelData.name ?? wsButton.modelData.index
+                    color: (wsButton.isFocused || wsButton.isActive) ? Colors.info : Colors.warning
+                    font.pixelSize: 11
+                    font.bold: wsButton.isFocused || wsButton.isActive
+                }
+
+                Repeater {
+                    model: root.showIcons ? wsButton.workspaceWindows : []
+
+                    delegate: Item {
+                        id: iconWrapper
+
+                        required property var modelData
+
+                        readonly property bool windowFocused: iconWrapper.modelData.focused === true
+                        readonly property string rawAppId: iconWrapper.modelData.app_id ?? ""
+                        readonly property DesktopEntry appEntry: rawAppId !== "" ? DesktopEntries.heuristicLookup(rawAppId) : null
+                        readonly property string iconName: appEntry?.icon ?? rawAppId
+
+                        width: 22
+                        height: 22
+
+                        IconImage {
+                            anchors.fill: parent
+                            smooth: true
+                            source: iconWrapper.rawAppId !== "" ? Quickshell.iconPath(iconWrapper.iconName, "application-x-executable") : Quickshell.iconPath("user-desktop")
+                        }
+
+                        // dim overlay for unfocused windows
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: 4
+                            color: Colors.surface0
+                            opacity: iconWrapper.windowFocused ? 0 : 0.4
+
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 150
+                                }
+                            }
+                        }
+
+                        WrapperMouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: Quickshell.execDetached(["umbriel", "msg", "window-focus:" + iconWrapper.modelData.id])
+                        }
+                    }
+                }
             }
 
             Behavior on Layout.preferredWidth {
@@ -84,7 +170,9 @@ RowLayout {
 
             WrapperMouseArea {
                 anchors.fill: parent
+
                 cursorShape: Qt.PointingHandCursor
+
                 onClicked: UmbrielWorkspaceIndicatorService.switchTo(wsButton.modelData.index ?? wsButton.modelData.id, wsButton.modelData.output)
 
                 onWheel: wheel => {
@@ -92,14 +180,17 @@ RowLayout {
                         return;
 
                     const currentIdx = root.workspaceList.findIndex(w => w.active === true);
+
                     if (currentIdx === -1)
                         return;
 
                     if (wheel.angleDelta.y < 0) {
                         const nextWs = root.workspaceList[Math.min(currentIdx + 1, root.workspaceList.length - 1)];
+
                         UmbrielWorkspaceIndicatorService.switchTo(nextWs.index ?? nextWs.id, wsButton.modelData.output);
                     } else if (wheel.angleDelta.y > 0) {
                         const prevWs = root.workspaceList[Math.max(currentIdx - 1, 0)];
+
                         UmbrielWorkspaceIndicatorService.switchTo(prevWs.index ?? prevWs.id, wsButton.modelData.output);
                     }
                 }
