@@ -57,9 +57,11 @@ RowLayout {
         implicitWidth: root.iconSize
         Layout.alignment: Qt.AlignVCenter
         percent: root.batteryPercent
-        charging: Upower.state === 5
+        charging: {
+            UPowerDeviceState.toString(Upower.state) === "Charging";
+        }
         alert: root.batteryPercent < 10
-        color: Upower.state === 5 ? Colors.success : Colors.text
+        color: UPowerDeviceState.toString(Upower.state) === "Charging" ? Colors.success : Colors.text
     }
 
     TextBox {
