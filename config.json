@@ -13,7 +13,7 @@
     },
     "font": {
       "family": "Google Sans",
-      "size": 15
+      "size": 13
     },
     "fontMono": {
       "family": "JetBrainsMono Nerd Font",
@@ -26,7 +26,7 @@
   "layout": {
     "left": {
       "widgets": [
-        "workspaces",
+        "notification",
         "focusedWindow",
         "cpu",
         "systray"
@@ -36,7 +36,7 @@
     },
     "center": {
       "widgets": [
-        "clock"
+        "workspaces"
       ],
       "separator": true,
       "spacing": 10
@@ -48,8 +48,7 @@
         "pipewire",
         "battery",
         "network",
-        "notification",
-        "wallpaper_button"
+        "clock"
       ],
       "separator": false,
       "spacing": 12
@@ -158,6 +157,7 @@
     "suspend": 5,
     "automaticSuspend": true,
     "showPercentage": true,
+    "showWhenCharging": true,
     "orientation": "horizontal"
   },
   "clock": {
@@ -168,7 +168,7 @@
     },
     "date": {
       "enabled": true,
-      "format": "ddd • MM.dd"
+      "format": ""
     },
     "font": {
       "family": "",
