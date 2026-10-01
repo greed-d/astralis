@@ -13,14 +13,6 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
         text: TimeService.time
     }
-    TextBox {
-        text: "  |  "
-        Layout.alignment: Qt.AlignVCenter
-    }
-    TextBox {
-        Layout.alignment: Qt.AlignVCenter
-        text: TimeService.date
-    }
 }
 // Text {
 //     id: timeBlock
