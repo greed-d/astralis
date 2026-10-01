@@ -15,12 +15,13 @@ RowLayout {
     readonly property var fontConfig: Config.theme.font
 
     property real iconSize: fontConfig.size * netConfig.scale
-    property string iconColor: netConfig.color
+    property string iconColor: Colors.text
     property bool iconEnabled: netConfig.enabled
     property bool iconVisible: netConfig.visible
     property string textColor: Colors.text
     property string fontFamily: fontConfig.family
     property int fontSize: fontConfig.size
+    property bool showText: true
 
     // Network State Helpers
     readonly property string networkType: NetworkService.networkType
@@ -44,7 +45,7 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
         tier: root.wifiTier
         iconHeight: root.iconSize
-        iconColor: "white"
+        iconColor: Colors.text
     }
 
     LanConnectedIcon {
@@ -56,7 +57,7 @@ RowLayout {
 
     // Consolidated Text Element
     TextBox {
-        visible: root.isDisconnected || (root.isWifi && NetworkService.ssid !== "") || root.isLan
+        visible: root.showText && (root.isDisconnected || (root.isWifi && NetworkService.ssid !== "") || root.isLan)
         text: root.isDisconnected ? "Disconnected" : root.isWifi ? `${NetworkService.ssid} ( ${root.signal}% )` : "Connected"
         color: root.isDisconnected ? root.iconColor : root.textColor
     }
