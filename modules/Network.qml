@@ -5,6 +5,7 @@ import Quickshell.Networking
 import qs.modules.common
 import qs.modules.icons
 import qs.services
+import qs.components.popup.network
 
 RowLayout {
     id: root
@@ -21,7 +22,7 @@ RowLayout {
     property string textColor: Colors.text
     property string fontFamily: fontConfig.family
     property int fontSize: fontConfig.size
-    property bool showText: true
+    property bool showText: false
 
     // Network State Helpers
     readonly property string networkType: NetworkService.networkType
@@ -60,5 +61,13 @@ RowLayout {
         visible: root.showText && (root.isDisconnected || (root.isWifi && NetworkService.ssid !== "") || root.isLan)
         text: root.isDisconnected ? "Disconnected" : root.isWifi ? `${NetworkService.ssid} ( ${root.signal}% )` : "Connected"
         color: root.isDisconnected ? root.iconColor : root.textColor
+    }
+    TapHandler {
+        onTapped: networkPopup.open = !networkPopup.open
+    }
+
+    NetworkPopup {
+        id: networkPopup
+        anchorItem: root
     }
 }

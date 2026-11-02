@@ -16,6 +16,7 @@ Singleton {
     readonly property bool isPresent: battery.isPresent
     readonly property var state: battery.state
     readonly property var type: battery.type
+    readonly property var deviceType: UPowerDeviceType.toString(type)
     readonly property string iconName: battery.iconName
     readonly property string model: battery.model
     readonly property real energy: battery.energy
@@ -51,7 +52,7 @@ Singleton {
         console.log("powerSupply:", powerSupply);
         console.log("isPresent:", isPresent);
         console.log("state:", state);
-        console.log("type:", type);
+        console.log("type:", deviceType);
         console.log("iconName:", iconName);
         console.log("model:", model);
         console.log("energy:", energy);
@@ -61,13 +62,27 @@ Singleton {
         console.log("healthSupported:", healthSupported);
         console.log("healthPercentage:", healthPercentage);
         console.log("isLaptopBattery:", isLaptopBattery);
+        console.log("stateString", stateString);
         console.log("Has Performance profile:", hasPerformanceProfile);
         console.log("Degradation Reason:", degradationReason);
         console.log("currentProfileString:", currentProfileString);
         console.log("Available Profiles:", availableProfileStrings);
+        console.log("State Status", stateString);
     }
 
-    Component.onCompleted: logAll()
+    property bool logged: false
+
+    // UPower properties arrive asynchronously over D-Bus; logging before the
+    // device is ready only prints the empty startup snapshot ("no battery").
+    function logWhenReady() {
+        if (logged || !ready)
+            return;
+        logged = true;
+        logAll();
+    }
+
+    onReadyChanged: logWhenReady()
+    Component.onCompleted: logWhenReady()
 
     function setProfile(value) {
         if (value === PowerProfile.Performance && !hasPerformanceProfile) {

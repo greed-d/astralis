@@ -9,10 +9,8 @@ import qs.modules.common
 Singleton {
     id: root
 
-    // The actual sticky state — not recomputed from scratch each time
     property MprisPlayer player: null
 
-    // --- Initial pick on startup / when list first populates ---
     function pickInitial() {
         const players = Mpris.players.values;
         return players.find(p => p.isPlaying) ?? players.find(p => p.canPlay) ?? null;
@@ -20,26 +18,22 @@ Singleton {
 
     Component.onCompleted: player = pickInitial()
 
-    // --- Watch for players being added/removed ---
     Connections {
         target: Mpris.players
 
         function onValuesChanged() {
             const players = Mpris.players.values;
 
-            // If our current player got closed/removed, fall back
             if (root.player && !players.includes(root.player)) {
                 root.player = players.find(p => p.isPlaying) ?? players.find(p => p.canPlay) ?? null;
             }
 
-            // If we have no player yet, try to pick one
             if (!root.player) {
                 root.player = root.pickInitial();
             }
         }
     }
 
-    // --- Watch each player for becoming active; switch stickily ---
     Instantiator {
         model: Mpris.players.values
         active: true
@@ -49,11 +43,8 @@ Singleton {
 
             function onIsPlayingChanged() {
                 if (modelData.isPlaying) {
-                    // A player started playing -> it becomes the active one
                     root.player = modelData;
                 }
-                // If it paused, do nothing — keep it as the shown player
-                // until something else starts playing or it's removed.
             }
         }
     }

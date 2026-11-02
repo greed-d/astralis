@@ -1,6 +1,7 @@
 import QtQuick
 import qs.modules
 import qs.modules.common
+import qs.components.popup.calendar
 
 Rectangle {
     id: root
@@ -15,5 +16,14 @@ Rectangle {
         id: clock
 
         anchors.centerIn: parent
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: calPopup.visible = !calPopup.visible
+    }
+    CalendarPopup {
+        id: calPopup
+        anchorItem: clock
     }
 }

@@ -29,11 +29,11 @@ Item {
         visible: NotificationService.historyOpen
         anchors {
             top: true
-            right: true
+            left: true
         }
         margins {
-            top: Config.data.bar.size + 12 + 4
-            right: 12
+            top: Config.data.bar.size + 4
+            left: 4
         }
         implicitWidth: 380
         implicitHeight: Math.min(500, 60 + NotificationService.history.count * 80)
@@ -52,6 +52,9 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: notifIpc.hide()
+            }
+            border {
+                color: Colors.border
             }
             ColumnLayout {
                 id: historyColumn

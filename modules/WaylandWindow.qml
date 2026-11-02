@@ -12,44 +12,55 @@ RowLayout {
 
     property string textColor: Colors.text ?? "#cdd6f4"
     property string rawAppId: WindowService.active?.appId ?? ""
+    property string windowTitle: WindowService.active?.title ?? ""
     readonly property DesktopEntry appEntry: DesktopEntries.heuristicLookup(root.rawAppId)
     readonly property string activeIconPath: appEntry?.icon ?? ""
 
-    // --- DEBUG LOGGERS ---
-    // onRawAppIdChanged: {
-    //     console.log("----------------------------------------");
-    //     console.log("[DEBUG] rawAppId:", rawAppId);
-    // }
-    //
-    // onAppEntryChanged: {
-    //     if (appEntry) {
-    //         console.log("[DEBUG] appEntry.id:", appEntry.id);
-    //         console.log("[DEBUG] appEntry.name:", appEntry.name);
-    //         console.log("[DEBUG] appEntry.icon:", appEntry.icon);
-    //         console.log("[DEBUG] appEntry.exec:", appEntry.exec);
-    //     } else {
-    //         console.log("[DEBUG] appEntry: null (No match found)");
-    //     }
-    // }
-    //
-    // onActiveIconPathChanged: {
-    //     console.log("[DEBUG] activeIconPath:", activeIconPath);
-    //     console.log("[DEBUG] Quickshell.iconPath():", Quickshell.iconPath(activeIconPath));
-    // }
-    // ---------------------
-
     IconImage {
-        // visible: root.rawAppId !== "" || null
-        source: root.rawAppId !== "" ? Quickshell.iconPath(activeIconPath) : Quickshell.iconPath("user-desktop")
+        source: root.rawAppId !== "" ? Quickshell.iconPath(root.activeIconPath) : Quickshell.iconPath("user-desktop")
         implicitWidth: 20
         implicitHeight: 20
-        // Layout.preferredWidth: 20
-        // Layout.preferredHeight: 20
         Layout.alignment: Qt.AlignVCenter
     }
 
     TextBox {
-        // visible: root.rawAppId !== "" || null
-        text: root.rawAppId !== "" || null ? root.rawAppId : "Desktop"
+        text: root.rawAppId !== "" ? root.rawAppId : "Desktop"
+    }
+
+    HoverHandler {
+        id: hover
+    }
+
+    PopupWindow {
+        id: popup
+        visible: hover.hovered && root.windowTitle !== ""
+        color: "transparent"   // default is white, that was your white panel
+
+        anchor.item: root
+        anchor.edges: Edges.Bottom     // attach to bottom edge of the module
+        anchor.gravity: Edges.Bottom   // popup extends downward from that point
+        anchor.rect.y: 30               // gap between module and popup
+        anchor.rect.x: 50               // gap between module and popup
+
+        implicitWidth: Math.min(label.implicitWidth + 24, 500)
+        implicitHeight: label.implicitHeight + 16
+
+        Rectangle {
+            anchors.fill: parent
+            radius: 8
+            color: Colors.background ?? "#1e1e2e"
+            border.width: 1
+            border.color: Colors.outline ?? "#45475a"
+
+            Text {
+                id: label
+                anchors.centerIn: parent
+                // width: parent.width - 24
+                text: root.windowTitle
+                color: root.textColor
+                // elide: Text.ElideRight
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
     }
 }

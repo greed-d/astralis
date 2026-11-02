@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.icons
@@ -12,7 +13,7 @@ RowLayout {
         iconColor: Colors.text
     }
 
-    MouseArea {
+    WrapperMouseArea {
         anchors.fill: parent
         onClicked: NotificationService.toggleHistory()
     }
