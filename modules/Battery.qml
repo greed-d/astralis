@@ -22,7 +22,7 @@ RowLayout {
     readonly property int lowThreshold: Config.battery.low
     readonly property int criticalThreshold: Config.battery.critical
     readonly property int suspendThreshold: Config.battery.suspend
-    property bool batteryVisible: Upower.isLaptopBattery === true || Config.battery.showWhenCharging === true
+    property bool batteryVisible: (Upower.powerSupply == true && Upower.deviceType == "Battery") || Config.battery.showWhenCharging
 
     readonly property string textColor: {
         if (batteryPercent <= criticalThreshold)

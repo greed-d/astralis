@@ -23,6 +23,9 @@
       "size": 24
     }
   },
+  "wallpaper": {
+    "directory": "/home/greed/Pictures/Wallpaper/walls-catppuccin-mocha/"
+  },
   "layout": {
     "left": {
       "widgets": [

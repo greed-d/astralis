@@ -52,4 +52,16 @@ RowLayout {
         // visible: root.rawAppId !== "" || null
         text: root.rawAppId !== "" || null ? root.rawAppId : "Desktop"
     }
+
+    HoverHandler {
+        id: hover
+    }
+
+    PanelWindow {
+        visible: hover.hovered
+        Rectangle {
+            width: implicitWidth + 4
+            color: "green"
+        }
+    }
 }

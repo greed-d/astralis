@@ -73,9 +73,9 @@ RowLayout {
                 return 22;
             }
 
-            Layout.preferredHeight: 30
+            Layout.preferredHeight: Config.data.bar.size - 4
 
-            radius: 18
+            radius: 28
             color: "transparent"
 
             border.color: {

@@ -14,6 +14,7 @@ Singleton {
     readonly property alias battery: adapter.battery
     readonly property alias notifications: adapter.notifications
     readonly property alias bar: adapter.bar
+    readonly property alias wallpaper: adapter.wallpaper
 
     FileView {
         path: Quickshell.shellPath("config.json")
@@ -112,7 +113,7 @@ Singleton {
                 property int suspend: 5
                 property bool automaticSuspend: true
                 property bool showPercentage: true
-                property bool showWhenCharging: true
+                property bool showWhenCharging: false
                 property string orientation: "horizontal"
             }
             property JsonObject network: JsonObject {
@@ -151,6 +152,10 @@ Singleton {
             }
             property JsonObject notifications: JsonObject {
                 property int timeout: 5
+            }
+
+            property JsonObject wallpaper: JsonObject {
+                property string directory: "/home/user/Pictures/Wallpapers"
             }
         }
     }
