@@ -22,13 +22,14 @@ PopupWindow {
     readonly property real batteryPercent: Upower.percentage * 100
 
     color: "transparent"
-    implicitWidth: 350
+    implicitWidth: 400
     implicitHeight: col.implicitHeight + 24
 
     anchor.item: anchorItem
 
-    anchor.rect.x: anchorItem ? (anchorItem.width / 2 - implicitWidth / 2) : 0
-    anchor.rect.y: anchorItem ? anchorItem.height + 6 : 0
+    // anchor.rect.x: anchorItem ? (anchorItem.width / 2 - implicitWidth / 2) : 0
+    anchor.rect.x: anchorItem ? (anchorItem.width / 2 - implicitWidth / 2) - 40 : 0
+    anchor.rect.y: anchorItem ? anchorItem.height + 12 : 0
 
     Rectangle {
         id: box
@@ -36,6 +37,10 @@ PopupWindow {
         implicitHeight: col.implicitHeight
         color: Colors.background2
         radius: 12
+        border {
+            color: Colors.border
+            width: 1
+        }
 
         ColumnLayout {
             id: col
@@ -48,6 +53,7 @@ PopupWindow {
             spacing: 8
 
             RowLayout {
+                Layout.fillWidth: true
                 BatteryIcon {
                     id: batteryIcon
                     percent: popupBattery.batteryPercent
@@ -56,13 +62,13 @@ PopupWindow {
                     alert: popupBattery.batteryPercent < 10
                 }
 
-                ProgressComponent {
-                    Layout.fillWidth: true
-                    value: Upower.percentage
-                    progressBarWidth: 24
-                    fillColor: Colors.primary
-                    fillBarBackground: Colors.surface0
-                }
+                // ProgressComponent {
+                //     Layout.fillWidth: true
+                //     value: Upower.percentage
+                //     progressBarWidth: 24
+                //     fillColor: Colors.primary
+                //     fillBarBackground: Colors.surface0
+                // }
                 Text {
                     text: `${popupBattery.batteryPercent}%`
                     font.pixelSize: 24
@@ -72,7 +78,7 @@ PopupWindow {
                 Text {
                     text: popupBattery.deviceState
                     font.pixelSize: 18
-                    color: Colors.text
+                    color: Colors.textDisabled
                     font.weight: Font.DemiBold
                 }
             }

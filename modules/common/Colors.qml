@@ -21,6 +21,7 @@ Singleton {
             property string surface2: "#585b70"
 
             property string text: "#cdd6f4"
+            property string subtext: "#a6adc8"
             property string textMuted: "#bac2de"
             property string textDisabled: "#a6adc8"
 
@@ -50,6 +51,7 @@ Singleton {
     readonly property alias surface2: adapter.surface2
 
     readonly property alias text: adapter.text
+    readonly property alias subtext: adapter.subtext
     readonly property alias textMuted: adapter.textMuted
     readonly property alias textDisabled: adapter.textDisabled
 

@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import "./shell/Bar/"
+import "./shell/Frame/"
 import "./modules/common/"
 import "./services/"
 
@@ -14,6 +15,8 @@ ShellRoot {
             position: Types.stringToPosition(Config.data.bar.position)
         }
     }
+
+    ScreenFrame {}
 
     Process {
         running: true

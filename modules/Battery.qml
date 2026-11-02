@@ -22,7 +22,16 @@ RowLayout {
     readonly property int lowThreshold: Config.battery.low
     readonly property int criticalThreshold: Config.battery.critical
     readonly property int suspendThreshold: Config.battery.suspend
-    property bool batteryVisible: Upower.isLaptopBattery === true || Config.battery.showWhenCharging === true
+
+    readonly property string deviceState: UPowerDeviceState.toString(Upower.state)
+    // Only trust "no battery" once UPower has actually reported: right after login
+    // (and whenever UPower reconnects) the device reads as Unknown / not present.
+    readonly property bool hasBattery: !Upower.ready || (Upower.powerSupply == true && Upower.deviceType == "Battery")
+    // "When charging" means the charger is doing the work: actively charging, held at
+    // a charge threshold, or already full.
+    readonly property bool isPluggedIn: deviceState === "Charging" || deviceState === "PendingCharge" || deviceState === "FullyCharged"
+    // Always show on battery power; while plugged in only show when showWhenCharging is set.
+    property bool batteryVisible: hasBattery && (!isPluggedIn || Config.battery.showWhenCharging)
 
     readonly property string textColor: {
         if (batteryPercent <= criticalThreshold)

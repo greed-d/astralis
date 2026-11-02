@@ -1,6 +1,5 @@
 import Quickshell
 import Quickshell.Widgets
-import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -14,165 +13,249 @@ PopupWindow {
     id: popupMpris
     property Item anchorItem: null
 
-    implicitWidth: 350
-    implicitHeight: col.implicitHeight + 24
+    implicitWidth: 340
+    implicitHeight: 340
 
     anchor.item: anchorItem
-
     anchor.rect.x: anchorItem ? (anchorItem.width / 2 - implicitWidth / 2) : 0
-    anchor.rect.y: anchorItem ? anchorItem.height + 6 : 0
+    anchor.rect.y: anchorItem ? anchorItem.height + 12 : 0
 
     color: "transparent"
 
-    Rectangle {
-        color: Colors.background2
-        anchors.fill: parent
-        implicitHeight: col.implicitHeight
-        radius: 12
+    // translucent round button used for prev/play/next
+    component GlassButton: Rectangle {
+        id: btn
+        property int size: 44
+        property bool enabledButton: true
+        default property alias content: holder.data
+        signal clicked
 
-        ColumnLayout {
-            id: col
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: parent.top
-                margins: 12
+        implicitWidth: size
+        implicitHeight: size
+        radius: size / 2
+        color: Qt.rgba(0, 0, 0, mouse.containsMouse ? 0.55 : 0.4)
+        opacity: enabledButton ? 1 : 0.4
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 120
             }
-            spacing: 8
-            RowLayout {
-                spacing: 16
-                ClippingWrapperRectangle {
-                    id: clipRect
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.preferredHeight: 80
-                    Layout.preferredWidth: 80
-                    radius: 20
-                    color: Colors.surface0
+        }
 
-                    Item {
+        Item {
+            id: holder
+            anchors.fill: parent
+        }
+
+        MouseArea {
+            id: mouse
+            anchors.fill: parent
+            hoverEnabled: true
+            enabled: btn.enabledButton
+            cursorShape: Qt.PointingHandCursor
+            onClicked: btn.clicked()
+        }
+    }
+
+    // outer bezel
+    Rectangle {
+        anchors.fill: parent
+        radius: 32
+        color: Colors.background2
+
+        // inner card, art fills it
+        ClippingRectangle {
+            id: card
+            anchors.fill: parent
+            anchors.margins: 8
+            radius: 26
+            color: Colors.surface0
+
+            Image {
+                id: art
+                anchors.fill: parent
+                source: MprisService.artUrl ? MprisService.artUrl : ""
+                fillMode: Image.PreserveAspectCrop
+                asynchronous: true
+                visible: status === Image.Ready
+            }
+
+            NoMedia {
+                visible: art.status !== Image.Ready
+                anchors.centerIn: parent
+                iconSize: 96
+                fillColor: Colors.textMuted
+            }
+
+            // bottom scrim for legibility
+            Rectangle {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+                height: 170
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: Qt.rgba(0, 0, 0, 0.65)
+                    }
+                }
+            }
+
+            // top-left info pill
+            Rectangle {
+                id: pill
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    margins: 12
+                }
+                height: 52
+                width: Math.min(pillRow.implicitWidth + 20, parent.width - 24)
+                radius: height / 2
+                color: Qt.rgba(0, 0, 0, 0.45)
+
+                RowLayout {
+                    id: pillRow
+                    anchors {
+                        fill: parent
+                        leftMargin: 6
+                        rightMargin: 14
+                        topMargin: 6
+                        bottomMargin: 6
+                    }
+                    spacing: 10
+
+                    ClippingRectangle {
+                        Layout.preferredWidth: 40
+                        Layout.preferredHeight: 40
+                        Layout.alignment: Qt.AlignVCenter
+                        radius: 20
+                        color: Colors.surface0
+
                         Image {
-                            id: art
                             anchors.fill: parent
                             source: MprisService.artUrl ? MprisService.artUrl : ""
                             fillMode: Image.PreserveAspectCrop
                             asynchronous: true
                             visible: status === Image.Ready
                         }
+                    }
 
-                        NoMedia {
-                            visible: art.status !== Image.Ready
-                            anchors.centerIn: parent
-                            iconSize: 50
-                            fillColor: Colors.textMuted
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter
+                        spacing: 0
+
+                        TextBox {
+                            Layout.fillWidth: true
+                            text: MprisService.title
+                            font.pixelSize: 15
+                            font.weight: Font.DemiBold
+                            color: "white"
+                            elide: Text.ElideRight
+                        }
+                        TextBox {
+                            Layout.fillWidth: true
+                            text: MprisService.artist ? MprisService.artist : "No artist"
+                            font.pixelSize: 13
+                            color: Qt.rgba(1, 1, 1, 0.65)
+                            elide: Text.ElideRight
                         }
                     }
                 }
-                ColumnLayout {
-                    spacing: 0
-                    TextBox {
-                        text: MprisService.playerName
-                        font.pixelSize: 16
-                        color: Colors.overlay2
-                    }
-                    TextBox {
-                        text: MprisService.title
-                        font.pixelSize: 24
-                        font.weight: Font.DemiBold
-                        Layout.preferredWidth: -1
-                        Layout.maximumWidth: popupMpris.implicitWidth - clipRect.width - 30
-                        elide: Text.ElideRight           // truncate visually instead of overflowing
-                    }
-                    TextBox {
-                        text: MprisService.artist ? MprisService.artist : "No artist"
-                        font.pixelSize: 20
-                        font.weight: Font.DemiBold
-                        color: Colors.overlay0
-                        Layout.preferredWidth: -1
-                        Layout.maximumWidth: popupMpris.implicitWidth - clipRect.width - 30
-                        elide: Text.ElideRight           // truncate visually instead of overflowing
-                    }
-                }
             }
-            RowLayout {
-                Layout.fillWidth: true
-                TextBox {
-                    id: post
-                    text: MprisService.positionText
-                    font.weight: Font.DemiBold
-                    Layout.preferredWidth: 60
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.alignment: Qt.AlignVCenter
+
+            // progress + controls
+            ColumnLayout {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                    margins: 14
                 }
+                spacing: 6
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    TextBox {
+                        text: MprisService.positionText
+                        font.pixelSize: 12
+                        font.weight: Font.DemiBold
+                        color: "white"
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    TextBox {
+                        text: MprisService.lengthText
+                        font.pixelSize: 12
+                        font.weight: Font.DemiBold
+                        color: Qt.rgba(1, 1, 1, 0.75)
+                    }
+                }
+
                 ProgressComponent {
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
                     indeterminate: false
+                    progressBarWidth: 10
                     value: MprisService.length > 0 ? MprisService.position / MprisService.length : 0
-                    fillColor: Colors.primary
-                    fillBarBackground: Colors.surface0
+                    fillColor: "white"
+                    fillBarBackground: Qt.rgba(30, 30, 46, 0.25)
                 }
-                TextBox {
-                    text: MprisService.lengthText
-                    font.weight: Font.DemiBold
 
-                    Layout.preferredWidth: 60
-                    horizontalAlignment: Text.AlignHCenter
+                RowLayout {
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 6
+                    spacing: 14
 
-                    Layout.alignment: Qt.AlignVCenter
-                }
-                Component.onCompleted: {
-                    console.log("Position text width", post.width);
-                }
-            }
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                spacing: 16
+                    GlassButton {
+                        size: 44
+                        enabledButton: MprisService.canGoPrevious
+                        onClicked: MprisService.previous()
 
-                MediaButton {
-                    size: 40
-                    enabledButton: MprisService.canGoPrevious
-                    onClicked: MprisService.previous()
-
-                    content: PrevIcon {
-                        anchors.centerIn: parent
-                        fillColor: Colors.text
-                        iconSize: 20
+                        PrevIcon {
+                            anchors.centerIn: parent
+                            iconSize: 20
+                            fillColor: Colors.text
+                        }
                     }
-                }
 
-                MediaButton {
-                    size: 64
-                    primary: true
-                    enabledButton: MprisService.canPlay || MprisService.canPause
-                    onClicked: MprisService.togglePlaybackState()
-
-                    content: Item {
-                        anchors.fill: parent
+                    GlassButton {
+                        size: 52
+                        enabledButton: MprisService.canPlay || MprisService.canPause
+                        onClicked: MprisService.togglePlaybackState()
 
                         PlayIcon {
                             anchors.centerIn: parent
                             visible: !MprisService.isPlaying
-                            iconSize: 32
-                            fillColor: Colors.background2
+                            iconSize: 26
+                            fillColor: Colors.text
                         }
                         PauseIcon {
                             anchors.centerIn: parent
                             visible: MprisService.isPlaying
-                            iconSize: 32
-                            fillColor: Colors.background2
+                            iconSize: 26
+                            fillColor: Colors.text
                         }
                     }
-                }
 
-                MediaButton {
-                    size: 40
-                    enabledButton: MprisService.canGoNext
-                    onClicked: MprisService.next()
+                    GlassButton {
+                        size: 44
+                        enabledButton: MprisService.canGoNext
+                        onClicked: MprisService.next()
 
-                    content: NextIcon {
-                        anchors.centerIn: parent
-                        fillColor: Colors.text
-                        iconSize: 20
+                        NextIcon {
+                            anchors.centerIn: parent
+                            iconSize: 20
+                            fillColor: Colors.text
+                        }
                     }
                 }
             }

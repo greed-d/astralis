@@ -25,7 +25,7 @@ Rectangle {
     color: Colors.background2
     border {
         width: 1
-        color: urgency === NotificationUrgency.Critical ? Colors.error : Colors.primary
+        color: urgency === NotificationUrgency.Critical ? Colors.error : Colors.border
     }
 
     FontMetrics {
@@ -138,14 +138,26 @@ Rectangle {
                     Repeater {
                         model: modelData
                         delegate: Rectangle {
+                            id: btn
                             required property var modelData
                             Layout.fillWidth: true
                             Layout.preferredHeight: 36
                             radius: 6
-                            color: Colors.surface1
+                            color: mouse.pressed ? Colors.surface2 : mouse.containsMouse ? Colors.surface1 : Colors.surface0
                             border {
                                 width: 1
-                                color: Colors.surface1
+                                color: mouse.containsMouse ? Colors.surface2 : Colors.surface1
+                            }
+
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 120
+                                }
+                            }
+                            Behavior on border.color {
+                                ColorAnimation {
+                                    duration: 120
+                                }
                             }
 
                             Rectangle {
@@ -158,13 +170,17 @@ Rectangle {
 
                             TextBox {
                                 anchors.centerIn: parent
-                                text: modelData.text
+                                text: btn.modelData.text
                                 fontSize: Config.theme.font.size - 1
                                 color: Colors.text
                             }
+
                             MouseArea {
+                                id: mouse
                                 anchors.fill: parent
-                                onClicked: modelData.invoke()
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: btn.modelData.invoke()
                             }
                         }
                     }

@@ -4,12 +4,11 @@ import Quickshell
 import Quickshell.Io
 import qs.modules.common
 import qs.modules.bar
-import qs.modules.wallpaper
 import qs.modules.cpu
 import qs.modules
 import qs.widgets
-import qs.components.popup
 import qs.components.popup.notifications
+import qs.components.popup.wallpaper
 
 Scope {
     id: root
@@ -38,7 +37,7 @@ Scope {
             Rectangle {
                 anchors.fill: parent
                 radius: 0
-                color: Colors.background2
+                color: Qt.alpha(Colors.background2, 0.7)
             }
 
             Component {
@@ -104,10 +103,10 @@ Scope {
                 id: pipewireComponent
                 Pipewire {}
             }
-            Component {
-                id: wallpaperButton
-                WallpaperButton {}
-            }
+            // Component {
+            //     id: wallpaperButton
+            //     WallpaperButton {}
+            // }
             Component {
                 id: batteryComponent
                 Battery {}
@@ -131,7 +130,6 @@ Scope {
                 "mpris": mprisComponent,
                 "clock": clockComponent,
                 "pipewire": pipewireComponent,
-                "wallpaper_button": wallpaperButton,
                 "battery": batteryComponent,
                 "systray": systrayComponent,
                 "notification": notificationComponent,
@@ -170,16 +168,17 @@ Scope {
                 }
             }
 
-            WallpaperPickerPopup {
-                id: wallpaperPopup
-                anchor.window: bar
-                anchor.rect.x: bar.width / 2 - width / 2
-                anchor.rect.y: bar.height
-                directory: "/home/deekshit.bhattarai/Pictures/walls-catppuccin-mocha/wallpapers.txt"
-            }
+            // WallpaperPickerPopup {
+            //     id: wallpaperPopup
+            //     anchor.window: bar
+            //     anchor.rect.x: bar.width / 2 - width / 2
+            //     anchor.rect.y: bar.height
+            //     directory: "/home/deekshit.bhattarai/Pictures/walls-catppuccin-mocha/wallpapers.txt"
+            // }
 
             NotificationPopup {}
             NotificationHistoryPopup {}
+            WallpaperPopup {}
         }
     }
 }

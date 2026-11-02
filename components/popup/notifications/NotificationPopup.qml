@@ -11,8 +11,8 @@ PanelWindow {
         right: true
     }
     margins {
-        top: Config.data.bar.size + 12 + 4
-        right: 12
+        top: Config.data.bar.size + 4
+        right: 6
     }
     implicitWidth: 380
     implicitHeight: Math.max(1, column.implicitHeight)
@@ -50,8 +50,13 @@ PanelWindow {
                 onDismissed: modelData.dismiss()
                 onCloseClicked: modelData.dismiss()
 
+                HoverHandler {
+                    id: hover
+                }
+
                 Timer {
-                    running: modelData.urgency !== NotificationUrgency.Critical
+                    id: dismissTimer
+                    running: modelData.urgency !== NotificationUrgency.Critical && !hover.hovered
                     interval: Config.notifications.timeout * 1000
                     onTriggered: modelData.dismiss()
                 }

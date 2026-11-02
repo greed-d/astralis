@@ -14,6 +14,8 @@ Singleton {
     readonly property alias battery: adapter.battery
     readonly property alias notifications: adapter.notifications
     readonly property alias bar: adapter.bar
+    readonly property alias wallpaper: adapter.wallpaper
+    readonly property alias frame: adapter.frame
 
     FileView {
         path: Quickshell.shellPath("config.json")
@@ -112,7 +114,7 @@ Singleton {
                 property int suspend: 5
                 property bool automaticSuspend: true
                 property bool showPercentage: true
-                property bool showWhenCharging: true
+                property bool showWhenCharging: false
                 property string orientation: "horizontal"
             }
             property JsonObject network: JsonObject {
@@ -151,6 +153,27 @@ Singleton {
             }
             property JsonObject notifications: JsonObject {
                 property int timeout: 5
+            }
+
+            property JsonObject wallpaper: JsonObject {
+                property string directory: "/home/user/Pictures/Wallpapers"
+            }
+
+            // Decorative border drawn around the screen edges.
+            property JsonObject frame: JsonObject {
+                // Whether the frame is shown on startup. Toggle at runtime with:
+                //   qs -p <shell dir> ipc call frame toggle
+                property bool enabled: true
+                // Corner radius in pixels (0 = square corners).
+                property real radius: 12
+                // Border thickness in pixels (0 = hidden).
+                property int width: 4
+                // Inset from the screen edge in pixels.
+                property int margin: 0
+                // Frame opacity, 0.0 - 1.0.
+                property real opacity: 1
+                // Border color. Empty string = "border" from colors.json.
+                property string color: ""
             }
         }
     }

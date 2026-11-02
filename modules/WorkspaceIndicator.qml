@@ -33,7 +33,8 @@ Item {
                 Layout.preferredWidth: 32
                 Layout.preferredHeight: 32
                 radius: 15
-                color: modelData.focused ? "#89b4fa" : (modelData.active ? "#ffffff" : "#313244")
+                // color: modelData.focused ? "#89b4fa" : (modelData.active ? "#ffffff" : "#313244")
+                border.color: modelData.focused ? "#89b4fa" : (modelData.active ? "#ffffff" : "#313244")
 
                 TextBox {
                     anchors.centerIn: parent
